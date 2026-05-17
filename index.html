@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BS Announcements</title>
@@ -25,17 +26,19 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* HEADER & BRANDING NAVIGATION */
         header.global-nav {
             background: rgba(17, 17, 21, 0.8);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid #1f1f2e;
             position: sticky;
             top: 0;
             z-index: 100;
-            padding: 15px 20px;
+            padding: 12px 16px;
         }
 
         .nav-container {
@@ -43,20 +46,20 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .nav-logo {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
             filter: drop-shadow(var(--glow-blue));
         }
 
         .nav-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             font-weight: 800;
             color: #ffffff;
             margin: 0;
@@ -66,18 +69,18 @@
         /* TIMELINE STRUCTURE */
         main {
             max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 24px auto;
+            padding: 0 16px;
         }
 
         article {
             background: var(--card-bg);
             border: 1px solid #1f1f2e;
             border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 35px;
+            padding: 20px;
+            margin-bottom: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.2s target, border-color 0.2s;
+            transition: border-color 0.2s;
         }
 
         article:hover {
@@ -87,13 +90,13 @@
         .byline {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .pfp {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--bs-blue);
@@ -102,7 +105,7 @@
         .pfp.hidden { display: none; }
 
         .byline span {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
@@ -112,11 +115,11 @@
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             color: #ffffff;
-            margin: 0 0 15px 0;
+            margin: 0 0 12px 0;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
 
         /* RE-ENGINEERED MEDIA PREVIEW MANAGEMENT */
@@ -126,7 +129,7 @@
             background: #050507;
             border-radius: 8px;
             border: 1px solid #1f1f2e;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -136,32 +139,34 @@
 
         .announcement-img {
             max-width: 100%;
-            max-height: 480px;
+            height: auto;
+            max-height: 400px;
             display: block;
-            object-fit: contain; /* Prevents any structural cropping */
+            object-fit: contain;
         }
 
         /* FLOATING ACTION OVERLAY BUTTON */
         .view-all-btn {
             position: absolute;
-            right: 20px;
-            bottom: 20px;
+            right: 12px;
+            bottom: 12px;
             background: rgba(0, 0, 0, 0.85);
             color: #ffffff;
             border: 1px solid var(--bs-blue);
-            padding: 10px 18px;
-            font-size: 0.8rem;
+            padding: 8px 14px;
+            font-size: 0.75rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             border-radius: 6px;
             cursor: pointer;
             backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             box-shadow: var(--glow-blue);
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             z-index: 5;
         }
 
@@ -177,8 +182,9 @@
 
         /* BODY CONTENT MARKUP */
         .article-body-content {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #cbd5e1;
+            word-break: break-word;
         }
 
         .article-body-content p { margin: 0 0 12px 0; }
@@ -190,12 +196,12 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(4, 4, 6, 0.95);
+            background: rgba(4, 4, 6, 0.98);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.25s ease;
+            transition: opacity 0.2s ease;
         }
 
         .lightbox-modal.show {
@@ -205,30 +211,31 @@
 
         .lightbox-content-wrapper {
             position: relative;
-            max-width: 90%;
-            max-height: 85%;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .lightbox-viewer-img {
             max-width: 100%;
-            max-height: 85vh;
+            max-height: 75vh;
             object-fit: contain;
             border-radius: 4px;
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        /* LIGHTBOX NAVIGATION CORES */
+        /* LIGHTBOX UI CONTROL CORES */
         .lightbox-btn {
             position: absolute;
-            background: rgba(17, 17, 21, 0.7);
+            background: rgba(17, 17, 21, 0.85);
             border: 1px solid #2e2e3f;
             color: #ffffff;
-            width: 50px; height: 50px;
+            width: 44px; height: 44px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -241,31 +248,41 @@
         .lightbox-btn:hover {
             border-color: var(--bs-blue);
             color: var(--bs-blue);
-            background: #111115;
             box-shadow: var(--glow-blue);
         }
 
-        .lightbox-prev { left: -75px; }
-        .lightbox-next { right: -75px; }
-        .lightbox-close { top: -60px; right: 0; border-color: var(--bs-red); color: var(--bs-red); }
+        /* UI Placement Mapping across Viewports */
+        .lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+        .lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
+        .lightbox-close { top: 16px; right: 16px; border-color: var(--bs-red); color: var(--bs-red); font-size: 1.5rem; }
         .lightbox-close:hover { background: var(--bs-red); color: #fff; box-shadow: var(--glow-red); }
 
         .lightbox-counter {
             position: absolute;
-            bottom: -40px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--text-muted);
+            color: #94a3b8;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 12px;
+            border-radius: 12px;
         }
 
-        /* Responsive Layout Overrides */
-        @media (max-width: 992px) {
-            .lightbox-prev { left: 20px; bottom: 20px; top: auto; }
-            .lightbox-next { right: 20px; bottom: 20px; top: auto; }
-            .lightbox-close { top: 20px; right: 20px; }
+        /* MOBILE PHONE RESPONSIVE OVERRIDES */
+        @media (max-width: 600px) {
+            body { padding-bottom: 20px; }
+            main { margin: 16px auto; }
+            article { padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+            h2 { font-size: 1.2rem; }
+            .announcement-img { max-height: 300px; }
+            
+            /* Reposition slider actions to baseline row on ultra-narrow phones to prevent covering the visual frame */
+            .lightbox-prev { left: 25%; top: auto; bottom: 60px; transform: none; }
+            .lightbox-next { right: 25%; top: auto; bottom: 60px; transform: none; }
+            .lightbox-viewer-img { max-height: 60vh; }
         }
     </style>
 </head>
@@ -283,28 +300,131 @@
     <main>
         
         <!-- SAMPLE ARTICLE ENTRY 1: SLIDESHOW MATRIX (3+ IMAGES) -->
-        
+        <article>
+            <header class="byline">
+                <img src="https://via.placeholder.com/100" class="pfp" alt="PFP">
+                <span>By <span class="author">System Administrator</span> • May 17, 2026</span>
+            </header>
+            <h2>Vercel Framework Migration Complete</h2>
+            
+            <div class="album-grid" onclick="initLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Primary Preview Asset">
+                <button type="button" class="view-all-btn">View All Images</button>
+                <div class="hidden-album-pool">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Asset Pool 2">
+                    <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Asset Pool 3">
+                </div>
+            </div>
+
+            <div class="article-body-content">
+                <p>The core rendering systems have successfully migrated over to their new cloud environment infrastructure targets. Monitor server status responses for downstream discrepancies.</p>
+            </div>
+        </article>
 
         <!-- SAMPLE ARTICLE ENTRY 2: DUAL SPECIFICATION (EXACTLY 2 IMAGES) -->
-        
+        <article>
+            <header class="byline">
+                <img src="https://via.placeholder.com/100" class="pfp" alt="PFP">
+                <span>By <span class="author">Design Lead</span> • May 12, 2026</span>
+            </header>
+            <h2>New Assets Concept Integration</h2>
+            
+            <div class="album-grid" onclick="initLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Primary Preview Asset">
+                <button type="button" class="view-all-btn">View All Images</button>
+                <div class="hidden-album-pool">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Secondary Asset">
+                </div>
+            </div>
+
+            <div class="article-body-content">
+                <p>A closer look at the experimental user interface layouts planned for upcoming production builds.</p>
+            </div>
+        </article>
 
     </main>
 
     <!-- LIGHTBOX SYSTEM INLINE LAYER INFRASTRUCTURE -->
     <div id="globalLightbox" class="lightbox-modal" onclick="closeLightbox()">
-        <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();">×</button>
-        <button id="lightboxPrev" class="lightbox-btn lightbox-prev" onclick="navigateLightbox(-1); event.stopPropagation();">❮</button>
+        <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();" aria-label="Close UI">&times;</button>
+        <button id="lightboxPrev" class="lightbox-btn lightbox-prev" onclick="navigateLightbox(-1); event.stopPropagation();" aria-label="Previous Frame">&#10094;</button>
         
         <div class="lightbox-content-wrapper" onclick="event.stopPropagation();">
             <img id="lightboxTargetImg" class="lightbox-viewer-img" src="" alt="Active View">
             <div id="lightboxCounter" class="lightbox-counter">1 / 1</div>
         </div>
 
-        <button id="lightboxNext" class="lightbox-btn lightbox-next" onclick="navigateLightbox(1); event.stopPropagation();">❯</button>
+        <button id="lightboxNext" class="lightbox-btn lightbox-next" onclick="navigateLightbox(1); event.stopPropagation();" aria-label="Next Frame">&#10095;</button>
     </div>
 
     <!-- ACTIVE SYSTEM SCRIPT LOGIC CORE -->
-    <script><br>        const MAX_POSTS_LIMIT = 15; // Track limits handled dynamically via CMS engine<br><br>        let activeImageArray = [];<br>        let activeImageIndex = 0;<br><br>        function initLightbox(gridElement) {<br>            activeImageArray = [];<br>            activeImageIndex = 0;<br><br>            // Extract primary image node<br>            const primaryImg = gridElement.querySelector('.announcement-img');<br>            if (primaryImg) activeImageArray.push(primaryImg.src);<br><br>            // Extract downstream imagery references hidden in pool wrappers<br>            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');<br>            structuralPool.forEach(img => activeImageArray.push(img.src));<br><br>            if (activeImageArray.length === 0) return;<br><br>            // Configure Lightbox layout configurations dynamically<br>            const prevBtn = document.getElementById('lightboxPrev');<br>            const nextBtn = document.getElementById('lightboxNext');<br><br>            if (activeImageArray.length <= 2) {<br>                // If there are exactly two images (or somehow just one), do not provide slider transformation control triggers<br>                prevBtn.style.display = 'none';<br>                nextBtn.style.display = 'none';<br>            } else {<br>                prevBtn.style.display = 'flex';<br>                nextBtn.style.display = 'flex';<br>            }<br><br>            renderLightboxFrame();<br>            <br>            const modal = document.getElementById('globalLightbox');<br>            modal.style.display = 'flex';<br>            setTimeout(() => modal.classList.add('show'), 10);<br>            document.body.style.overflow = 'hidden';<br>        }<br><br>        function renderLightboxFrame() {<br>            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];<br>            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;<br>        }<br><br>        function navigateLightbox(direction) {<br>            activeImageIndex += direction;<br>            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;<br>            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;<br>            renderLightboxFrame();<br>        }<br><br>        function closeLightbox() {<br>            const modal = document.getElementById('globalLightbox');<br>            modal.classList.remove('show');<br>            setTimeout(() => modal.style.display = 'none', 250);<br>            document.body.style.overflow = '';<br>        }<br><br>        // Trap Keyboard Navigation Arrays safely<br>        document.addEventListener('keydown', (e) => {<br>            const modal = document.getElementById('globalLightbox');<br>            if (!modal.classList.contains('show')) return;<br>            <br>            if (e.key === 'Escape') closeLightbox();<br>            if (activeImageArray.length > 2) {<br>                if (e.key === 'ArrowRight') navigateLightbox(1);<br>                if (e.key === 'ArrowLeft') navigateLightbox(-1);<br>            }<br>        });<br>    </script>
+    <script>
+        const MAX_POSTS_LIMIT = 15; 
 
+        let activeImageArray = [];
+        let activeImageIndex = 0;
 
-</body></html>
+        function initLightbox(gridElement) {
+            activeImageArray = [];
+            activeImageIndex = 0;
+
+            const primaryImg = gridElement.querySelector('.announcement-img');
+            if (primaryImg) activeImageArray.push(primaryImg.src);
+
+            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');
+            structuralPool.forEach(img => activeImageArray.push(img.src));
+
+            if (activeImageArray.length === 0) return;
+
+            const prevBtn = document.getElementById('lightboxPrev');
+            const nextBtn = document.getElementById('lightboxNext');
+
+            // Arrows are hidden if there are 2 or fewer images as requested
+            if (activeImageArray.length <= 2) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+            }
+
+            renderLightboxFrame();
+            
+            const modal = document.getElementById('globalLightbox');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function renderLightboxFrame() {
+            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];
+            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;
+        }
+
+        function navigateLightbox(direction) {
+            activeImageIndex += direction;
+            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;
+            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;
+            renderLightboxFrame();
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('globalLightbox');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 200);
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('globalLightbox');
+            if (!modal.classList.contains('show')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (activeImageArray.length > 2) {
+                if (e.key === 'ArrowRight') navigateLightbox(1);
+                if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            }
+        });
+    </script>
+</body>
+</html>
