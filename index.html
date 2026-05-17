@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beat Saber Hub</title>
@@ -189,69 +188,19 @@
 
 <div class="container">
     <main>
-        <article onclick="openModal(this)">
-            <header class="byline">
-                <img src="https://i.pravatar.cc/100?u=1" class="pfp" alt="PFP">
-                <span>By <span class="author">System</span> • May 17, 2026</span>
-            </header>
-            <h2>Platform Core Synchronized</h2>
-            <div class="album-grid single-image">
-                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800" class="announcement-img" alt="Banner">
-            </div>
-            <div class="article-body-content">Welcome to the revised infrastructure dashboard. New posts made via the administrative dashboard override chronological stack depth metrics directly.</div>
-        </article>
+        
     </main>
 </div>
 
 <div id="newsModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <span class="close-btn" onclick="closeModal()">×</span>
         <div id="modalBody"></div>
     </div>
 </div>
 
-<script>
-    // CORE SYSTEM RUNTIME VARIABLE READOUTS
-    const MAX_POSTS_LIMIT = 15;
+<script><br>    // CORE SYSTEM RUNTIME VARIABLE READOUTS<br>    const MAX_POSTS_LIMIT = 15;<br><br>    function openModal(element) {<br>        const modal = document.getElementById("newsModal");<br>        const modalBody = document.getElementById("modalBody");<br>        <br>        // Clone structure to preserve parent context styling rules<br>        modalBody.innerHTML = element.innerHTML;<br>        <br>        // Expose nested image arrays hidden within structural bounds<br>        const hiddenAlbumPool = modalBody.querySelector('.hidden-album-pool');<br>        if (hiddenAlbumPool) {<br>            hiddenAlbumPool.classList.remove('hidden');<br>            hiddenAlbumPool.style.display = 'grid';<br>            hiddenAlbumPool.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';<br>            hiddenAlbumPool.style.gap = '8px';<br>            hiddenAlbumPool.style.marginTop = '15px';<br>            <br>            const underlyingImages = hiddenAlbumPool.querySelectorAll('img.hidden');<br>            underlyingImages.forEach(img => img.classList.remove('hidden'));<br>        }<br><br>        const overlayText = modalBody.querySelector('.album-overlay');<br>        if(overlayText) overlayText.remove();<br><br>        const concealedElements = modalBody.querySelectorAll('.hidden');<br>        concealedElements.forEach(el => el.classList.remove('hidden'));<br>        <br>        modal.style.display = "block";<br>    }<br><br>    function closeModal() {<br>        document.getElementById("newsModal").style.display = "none";<br>    }<br><br>    window.onclick = function(event) {<br>        const modal = document.getElementById("newsModal");<br>        if (event.target == modal) { closeModal(); }<br>    }<br></script>
 
-    function openModal(element) {
-        const modal = document.getElementById("newsModal");
-        const modalBody = document.getElementById("modalBody");
-        
-        // Clone structure to preserve parent context styling rules
-        modalBody.innerHTML = element.innerHTML;
-        
-        // Expose nested image arrays hidden within structural bounds
-        const hiddenAlbumPool = modalBody.querySelector('.hidden-album-pool');
-        if (hiddenAlbumPool) {
-            hiddenAlbumPool.classList.remove('hidden');
-            hiddenAlbumPool.style.display = 'grid';
-            hiddenAlbumPool.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
-            hiddenAlbumPool.style.gap = '8px';
-            hiddenAlbumPool.style.marginTop = '15px';
-            
-            const underlyingImages = hiddenAlbumPool.querySelectorAll('img.hidden');
-            underlyingImages.forEach(img => img.classList.remove('hidden'));
-        }
 
-        const overlayText = modalBody.querySelector('.album-overlay');
-        if(overlayText) overlayText.remove();
 
-        const concealedElements = modalBody.querySelectorAll('.hidden');
-        concealedElements.forEach(el => el.classList.remove('hidden'));
-        
-        modal.style.display = "block";
-    }
-
-    function closeModal() {
-        document.getElementById("newsModal").style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById("newsModal");
-        if (event.target == modal) { closeModal(); }
-    }
-</script>
-
-</body>
-</html>
+</body></html>
