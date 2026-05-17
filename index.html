@@ -24,7 +24,6 @@
             line-height: 1.6;
         }
 
-        /* NAVIGATION */
         nav {
             background: rgba(0, 0, 0, 0.8);
             border-bottom: 2px solid var(--bs-blue);
@@ -55,7 +54,6 @@
 
         .nav-links a:hover { color: var(--bs-red); }
 
-        /* LAYOUT GRID */
         .container {
             max-width: 1100px;
             margin: 40px auto;
@@ -69,7 +67,6 @@
             .container { grid-template-columns: 1fr; }
         }
 
-        /* ANNOUNCEMENT CARDS */
         article {
             background: var(--card-bg);
             border: 1px solid #222;
@@ -107,7 +104,6 @@
             margin: 15px 0;
         }
 
-        /* SIDEBAR SECTIONS */
         .sidebar-box {
             background: var(--card-bg);
             border: 1px solid #222;
@@ -132,7 +128,6 @@
             font-size: 0.9rem;
         }
 
-        /* MODAL (POPUP) STYLES */
         .modal {
             display: none;
             position: fixed;
@@ -165,7 +160,6 @@
             cursor: pointer;
         }
 
-        /* HELPERS */
         .hidden { display: none !important; }
         .author { color: var(--bs-blue); font-weight: bold; }
     </style>
@@ -184,29 +178,15 @@
 <div class="container">
     <!-- MAIN FEED -->
     <main>
-        
-        <!-- ANNOUNCEMENT TEMPLATE START -->
         <article onclick="openModal(this)">
             <header class="byline">
                 <img src="https://i.pravatar.cc/100?u=1" class="pfp" alt="PFP">
-                <span>By <span class="author">LinkinPark88</span> • May 15, 2026</span>
+                <span>By <span class="author">System</span> • May 17, 2026</span>
             </header>
-            <h2>Linkin Park Music Pack Returns!</h2>
+            <h2>Hub Successfully Initialized</h2>
             <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800" class="announcement-img" alt="Banner">
-            <p>Get ready for a total of 8 new tracks and a custom stage environment inspired by the Meteora era. Mapping features new Arc and Chain notes.</p>
+            <p>Welcome to the Beat Saber Announcements Hub! New posts generated from the Admin panel will automatically appear above this message.</p>
         </article>
-        <!-- ANNOUNCEMENT TEMPLATE END -->
-
-        <article onclick="openModal(this)">
-            <header class="byline">
-                <img src="https://i.pravatar.cc/100?u=2" class="pfp hidden" alt="PFP">
-                <span>By <span class="author">System</span> • May 12, 2026</span>
-            </header>
-            <h2>Minor Hotfix 1.34.2</h2>
-            <img src="" class="announcement-img hidden" alt="Banner">
-            <p>Fixed a crash occurring on the 'Spin Eternal' track for Quest 3 users. Optimized haptic feedback latency.</p>
-        </article>
-
     </main>
 
     <!-- SIDEBAR -->
@@ -230,9 +210,7 @@
 <div id="newsModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div id="modalBody">
-            <!-- Content gets injected here automatically -->
-        </div>
+        <div id="modalBody"></div>
     </div>
 </div>
 
@@ -240,10 +218,8 @@
     function openModal(element) {
         const modal = document.getElementById("newsModal");
         const modalBody = document.getElementById("modalBody");
-        // We clone the content so it doesn't move the actual HTML out of the list
         modalBody.innerHTML = element.innerHTML;
         
-        // Remove 'hidden' classes inside the modal so the popup shows everything
         const hiddenElements = modalBody.querySelectorAll('.hidden');
         hiddenElements.forEach(el => el.classList.remove('hidden'));
         
@@ -254,7 +230,6 @@
         document.getElementById("newsModal").style.display = "none";
     }
 
-    // Close if user clicks outside the box
     window.onclick = function(event) {
         const modal = document.getElementById("newsModal");
         if (event.target == modal) { closeModal(); }
