@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BS Announcements</title>
@@ -284,26 +283,7 @@
     <main>
         
         <!-- SAMPLE ARTICLE ENTRY 1: SLIDESHOW MATRIX (3+ IMAGES) -->
-        <article>
-            <header class="byline">
-                <img src="https://via.placeholder.com/100" class="pfp" alt="PFP">
-                <span>By <span class="author">System Administrator</span> • May 17, 2026</span>
-            </header>
-            <h2>Vercel Framework Migration Complete</h2>
-            
-            <div class="album-grid" onclick="initLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Primary Preview Asset">
-                <button type="button" class="view-all-btn">View All Images</button>
-                <div class="hidden-album-pool">
-                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Asset Pool 2">
-                    <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Asset Pool 3">
-                </div>
-            </div>
-
-            <div class="article-body-content">
-                <p>The core rendering systems have successfully migrated over to their new cloud environment infrastructure targets. Monitor server status responses for downstream discrepancies.</p>
-            </div>
-        </article>
+        
 
         <!-- SAMPLE ARTICLE ENTRY 2: DUAL SPECIFICATION (EXACTLY 2 IMAGES) -->
         <article>
@@ -314,10 +294,10 @@
             <h2>New Assets Concept Integration</h2>
             
             <div class="album-grid" onclick="initLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Primary Preview Asset">
+                <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" class="announcement-img" alt="Primary Preview Asset">
                 <button type="button" class="view-all-btn">View All Images</button>
                 <div class="hidden-album-pool">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80" class="announcement-img" alt="Secondary Asset">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" class="announcement-img" alt="Secondary Asset">
                 </div>
             </div>
 
@@ -330,89 +310,19 @@
 
     <!-- LIGHTBOX SYSTEM INLINE LAYER INFRASTRUCTURE -->
     <div id="globalLightbox" class="lightbox-modal" onclick="closeLightbox()">
-        <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();">&times;</button>
-        <button id="lightboxPrev" class="lightbox-btn lightbox-prev" onclick="navigateLightbox(-1); event.stopPropagation();">&#10094;</button>
+        <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();">×</button>
+        <button id="lightboxPrev" class="lightbox-btn lightbox-prev" onclick="navigateLightbox(-1); event.stopPropagation();">❮</button>
         
         <div class="lightbox-content-wrapper" onclick="event.stopPropagation();">
             <img id="lightboxTargetImg" class="lightbox-viewer-img" src="" alt="Active View">
             <div id="lightboxCounter" class="lightbox-counter">1 / 1</div>
         </div>
 
-        <button id="lightboxNext" class="lightbox-btn lightbox-next" onclick="navigateLightbox(1); event.stopPropagation();">&#10095;</button>
+        <button id="lightboxNext" class="lightbox-btn lightbox-next" onclick="navigateLightbox(1); event.stopPropagation();">❯</button>
     </div>
 
     <!-- ACTIVE SYSTEM SCRIPT LOGIC CORE -->
-    <script>
-        const MAX_POSTS_LIMIT = 15; // Track limits handled dynamically via CMS engine
+    <script><br>        const MAX_POSTS_LIMIT = 15; // Track limits handled dynamically via CMS engine<br><br>        let activeImageArray = [];<br>        let activeImageIndex = 0;<br><br>        function initLightbox(gridElement) {<br>            activeImageArray = [];<br>            activeImageIndex = 0;<br><br>            // Extract primary image node<br>            const primaryImg = gridElement.querySelector('.announcement-img');<br>            if (primaryImg) activeImageArray.push(primaryImg.src);<br><br>            // Extract downstream imagery references hidden in pool wrappers<br>            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');<br>            structuralPool.forEach(img => activeImageArray.push(img.src));<br><br>            if (activeImageArray.length === 0) return;<br><br>            // Configure Lightbox layout configurations dynamically<br>            const prevBtn = document.getElementById('lightboxPrev');<br>            const nextBtn = document.getElementById('lightboxNext');<br><br>            if (activeImageArray.length <= 2) {<br>                // If there are exactly two images (or somehow just one), do not provide slider transformation control triggers<br>                prevBtn.style.display = 'none';<br>                nextBtn.style.display = 'none';<br>            } else {<br>                prevBtn.style.display = 'flex';<br>                nextBtn.style.display = 'flex';<br>            }<br><br>            renderLightboxFrame();<br>            <br>            const modal = document.getElementById('globalLightbox');<br>            modal.style.display = 'flex';<br>            setTimeout(() => modal.classList.add('show'), 10);<br>            document.body.style.overflow = 'hidden';<br>        }<br><br>        function renderLightboxFrame() {<br>            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];<br>            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;<br>        }<br><br>        function navigateLightbox(direction) {<br>            activeImageIndex += direction;<br>            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;<br>            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;<br>            renderLightboxFrame();<br>        }<br><br>        function closeLightbox() {<br>            const modal = document.getElementById('globalLightbox');<br>            modal.classList.remove('show');<br>            setTimeout(() => modal.style.display = 'none', 250);<br>            document.body.style.overflow = '';<br>        }<br><br>        // Trap Keyboard Navigation Arrays safely<br>        document.addEventListener('keydown', (e) => {<br>            const modal = document.getElementById('globalLightbox');<br>            if (!modal.classList.contains('show')) return;<br>            <br>            if (e.key === 'Escape') closeLightbox();<br>            if (activeImageArray.length > 2) {<br>                if (e.key === 'ArrowRight') navigateLightbox(1);<br>                if (e.key === 'ArrowLeft') navigateLightbox(-1);<br>            }<br>        });<br>    </script>
 
-        let activeImageArray = [];
-        let activeImageIndex = 0;
 
-        function initLightbox(gridElement) {
-            activeImageArray = [];
-            activeImageIndex = 0;
-
-            // Extract primary image node
-            const primaryImg = gridElement.querySelector('.announcement-img');
-            if (primaryImg) activeImageArray.push(primaryImg.src);
-
-            // Extract downstream imagery references hidden in pool wrappers
-            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');
-            structuralPool.forEach(img => activeImageArray.push(img.src));
-
-            if (activeImageArray.length === 0) return;
-
-            // Configure Lightbox layout configurations dynamically
-            const prevBtn = document.getElementById('lightboxPrev');
-            const nextBtn = document.getElementById('lightboxNext');
-
-            if (activeImageArray.length <= 2) {
-                // If there are exactly two images (or somehow just one), do not provide slider transformation control triggers
-                prevBtn.style.display = 'none';
-                nextBtn.style.display = 'none';
-            } else {
-                prevBtn.style.display = 'flex';
-                nextBtn.style.display = 'flex';
-            }
-
-            renderLightboxFrame();
-            
-            const modal = document.getElementById('globalLightbox');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10);
-            document.body.style.overflow = 'hidden';
-        }
-
-        function renderLightboxFrame() {
-            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];
-            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;
-        }
-
-        function navigateLightbox(direction) {
-            activeImageIndex += direction;
-            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;
-            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;
-            renderLightboxFrame();
-        }
-
-        function closeLightbox() {
-            const modal = document.getElementById('globalLightbox');
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 250);
-            document.body.style.overflow = '';
-        }
-
-        // Trap Keyboard Navigation Arrays safely
-        document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('globalLightbox');
-            if (!modal.classList.contains('show')) return;
-            
-            if (e.key === 'Escape') closeLightbox();
-            if (activeImageArray.length > 2) {
-                if (e.key === 'ArrowRight') navigateLightbox(1);
-                if (e.key === 'ArrowLeft') navigateLightbox(-1);
-            }
-        });
-    </script>
-</body>
-</html>
+</body></html>
