@@ -4,7 +4,7 @@
 
 **Copyright © 2026. All Rights Reserved.**
 
-All proprietary materials contained within this repository—including but not limited to source code, compiled binaries, configuration schematics, and architectural assets—are the exclusive property of the copyright holder. These materials are protected under international copyright, trademark, and intellectual property jurisprudence.
+All proprietary materials contained within this repository,including but not limited to source code, compiled binaries, configuration schematics, and architectural assets—are the exclusive property of the copyright holder. These materials are protected under international copyright, trademark, and intellectual property jurisprudence.
 
 ## Distribution & Licensing Policy
 
