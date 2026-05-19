@@ -45,7 +45,7 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* ADDED FOR SEARCH ALIGNMENT */
+            justify-content: space-between;
             gap: 12px;
         }
 
@@ -72,7 +72,6 @@
             text-shadow: var(--glow-blue);
         }
 
-        /* --- ADDED SEARCH BAR STYLES --- */
         .search-wrapper {
             position: relative;
             flex: 1;
@@ -97,7 +96,44 @@
             background: #050507;
         }
 
-        /* --- ADDED GAME EMBED BUTTON STYLES & MOBILE OVERRIDES --- */
+        /* --- ADDED: FILTERING CATEGORY BAR --- */
+        .category-filter-bar {
+            max-width: 800px;
+            margin: 16px auto 0 auto;
+            padding: 0 16px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Hide for Firefox */
+        }
+        .category-filter-bar::-webkit-scrollbar {
+            display: none; /* Hide for Chrome/Safari */
+        }
+        .filter-btn {
+            background: #111115;
+            border: 1px solid #1f1f2e;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--bs-blue);
+            color: #fff;
+        }
+        .filter-btn.active {
+            background: var(--bs-blue);
+            border-color: var(--bs-blue);
+            color: #070709;
+            font-weight: 700;
+            box-shadow: var(--glow-blue);
+        }
+
+        /* --- EMBED/UTILITY SYSTEM --- */
         .game-utils {
             display: flex;
             gap: 10px;
@@ -108,7 +144,6 @@
             width: 100%;
         }
 
-        /* Prevent any frame embeds or objects from breaking layouts */
         .game-utils iframe, 
         .game-utils embed, 
         .game-utils object {
@@ -144,7 +179,7 @@
         /* TIMELINE STRUCTURE */
         main {
             max-width: 800px;
-            margin: 24px auto;
+            margin: 12px auto 24px auto;
             padding: 0 16px;
         }
 
@@ -189,6 +224,20 @@
             font-weight: 600;
         }
 
+        /* --- ADDED: CATEGORY TAG WITHIN CARD --- */
+        .post-tag {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--bs-blue);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-left: auto; /* Push it to the right side of the byline */
+        }
+
         h2 {
             font-size: 1.35rem;
             color: #ffffff;
@@ -197,7 +246,7 @@
             letter-spacing: -0.3px;
         }
 
-        /* RE-ENGINEERED MEDIA PREVIEW MANAGEMENT */
+        /* MEDIA PREVIEW MANAGEMENT */
         .album-grid {
             position: relative;
             width: 100%;
@@ -220,7 +269,6 @@
             object-fit: contain;
         }
 
-        /* FLOATING ACTION OVERLAY BUTTON */
         .view-all-btn {
             position: absolute;
             right: 12px;
@@ -263,7 +311,6 @@
             position: relative;
         }
 
-        /* Enforce initial limits on massive bodies to activate Read More functionality */
         .article-body-content.truncated-view {
             max-height: 280px;
             overflow: hidden;
@@ -274,7 +321,6 @@
         .article-body-content p { margin: 0 0 12px 0; }
         .article-body-content p:last-child { margin-bottom: 0; }
 
-        /* Dynamic Expand Action Item */
         .read-more-trigger {
             display: block;
             width: 100%;
@@ -333,7 +379,6 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        /* LIGHTBOX & POPUP UI CONTROL CORES */
         .lightbox-btn {
             position: absolute;
             background: rgba(17, 17, 21, 0.85);
@@ -357,7 +402,6 @@
             box-shadow: var(--glow-blue);
         }
 
-        /* UI Placement Mapping across Viewports */
         .lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
         .lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
         .lightbox-close { top: 16px; right: 16px; border-color: var(--bs-red); color: var(--bs-red); font-size: 1.5rem; }
@@ -377,7 +421,7 @@
             border-radius: 12px;
         }
 
-        /* --- READ MORE POPUP CONTENT SYSTEMS --- */
+        /* READ MORE POPUP CONTENT SYSTEMS */
         .article-popup-modal {
             display: none;
             position: fixed;
@@ -448,45 +492,29 @@
             flex: 1;
         }
 
-        /* CUSTOM CSS SCROLLBAR DESIGN */
-        .popup-body-scroll::-webkit-scrollbar {
-            width: 8px;
-        }
-        .popup-body-scroll::-webkit-scrollbar-track {
-            background: #09090d;
-        }
-        .popup-body-scroll::-webkit-scrollbar-thumb {
-            background: #232333;
-            border-radius: 4px;
-        }
-        .popup-body-scroll::-webkit-scrollbar-thumb:hover {
-            background: var(--bs-blue);
-        }
+        .popup-body-scroll::-webkit-scrollbar { width: 8px; }
+        .popup-body-scroll::-webkit-scrollbar-track { background: #09090d; }
+        .popup-body-scroll::-webkit-scrollbar-thumb { background: #232333; border-radius: 4px; }
+        .popup-body-scroll::-webkit-scrollbar-thumb:hover { background: var(--bs-blue); }
 
         /* MOBILE PHONE RESPONSIVE OVERRIDES */
         @media (max-width: 600px) {
             body { padding-bottom: 20px; }
-            main { margin: 16px auto; }
+            main { margin: 12px auto 16px auto; }
             article { padding: 16px; border-radius: 8px; margin-bottom: 16px; }
             h2 { font-size: 1.2rem; }
             .announcement-img { max-height: 300px; }
             
-            /* Reposition slider actions to baseline row on ultra-narrow phones */
             .lightbox-prev { left: 25%; top: auto; bottom: 60px; transform: none; }
             .lightbox-next { right: 25%; top: auto; bottom: 60px; transform: none; }
             .lightbox-viewer-img { max-height: 60vh; }
 
             .nav-container { flex-direction: column; align-items: flex-start; gap: 8px; }
             .search-wrapper { max-width: 100%; width: 100%; }
+            .category-filter-bar { margin-top: 12px; padding: 0 16px; }
 
-            /* Mobile structural optimization for popup content */
-            .popup-window {
-                max-height: 92vh;
-            }
-            .game-utils .util-btn {
-                width: 100%;
-                justify-content: center;
-            }
+            .popup-window { max-height: 92vh; }
+            .game-utils .util-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -499,14 +527,61 @@
                 <h1 class="nav-title">BS Announcements</h1>
             </div>
             <div class="search-wrapper">
-                <input type="text" id="announcementSearch" placeholder="Search news, authors, or maps..." oninput="filterAnnouncements()">
+                <input type="text" id="announcementSearch" placeholder="Search news, authors, or maps..." oninput="executeCombinedFilter()">
             </div>
         </div>
     </header>
 
+    <div class="category-filter-bar" id="categoryFilterContainer">
+        <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
+        <button class="filter-btn" onclick="filterCategory('updates', this)">Updates</button>
+        <button class="filter-btn" onclick="filterCategory('maps', this)">Maps</button>
+        <button class="filter-btn" onclick="filterCategory('community', this)">Community</button>
+    </div>
+
     <main id="announcementContainer">
-        
-        <article><header class="byline"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/refs/heads/main/channels4_profile.jpg" class="pfp"><span>By <span class="author">Beat Saber Official</span> • May 15, 2026</span></header><h2>Beat Saber Teased 3 NEW songs for their 8th anniversary</h2><div class="album-grid" onclick="initLightbox(this)"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/refs/heads/main/fKVGGnInTRw-HD.jpg" class="announcement-img"><div class="hidden-album-pool"></div></div><div class="article-body-content"><p data-path-to-node="0">This teaser is incredibly exciting for the <i data-path-to-node="0" data-index-in-node="43">Beat Saber</i> community, especially for those who love high-energy, complex electronic music. This release lands on <b data-path-to-node="0" data-index-in-node="156">May 28th</b> as part of Beat Games' <b data-path-to-node="0" data-index-in-node="188">8th Anniversary celebrations</b>, where they traditionally drop highly anticipated free tracks to thank the community.</p><p data-path-to-node="1">Here is an expanded breakdown and clarification of what you can expect from these three powerhouse artist pairings:</p><h3 data-path-to-node="2">1. Skybreak &amp; Daeya</h3><ul data-path-to-node="3"><li><p data-path-to-node="3,0,0"><b data-path-to-node="3,0,0" data-index-in-node="0">The Vibe:</b> Melodic Dubstep / Color Bass / Cinematic EDM.</p></li><li><p data-path-to-node="3,1,0"><b data-path-to-node="3,1,0" data-index-in-node="0">What to Expect:</b> Skybreak is famous for his incredibly bright, lush, and intricately sound-designed "color bass" (a vibrant, melodic evolution of dubstep). He recently made waves in the game with "Accelerate" (with Teminite) on the Monstercat Mixtape 2. Partnering with Daeya—who is known for her ethereal, soaring, and emotional vocals—means we are almost certainly getting a massive, beautifully melodic bass anthem.</p></li><li><p data-path-to-node="3,2,0"><b data-path-to-node="3,2,0" data-index-in-node="37">Gameplay Prediction:</b> Expect sweeping <b data-path-to-node="3,2,0" data-index-in-node="37">Arcs</b> that follow emotional vocal leads, contrasted against fast, bursts of rhythmic streams during the drop.</p></li></ul><h3 data-path-to-node="4">2. Boom Kitty x MDK</h3><ul data-path-to-node="5"><li><p data-path-to-node="5,0,0"><b data-path-to-node="5,0,0" data-index-in-node="0">The Vibe:</b> Glitch Hop / Electro House / Chiptune Heavy Bass.</p></li><li><p data-path-to-node="5,1,0"><b data-path-to-node="5,1,0" data-index-in-node="100">What to Expect:</b> This is a dream collaboration for rhythm game fans. Both artists are legends in the <i data-path-to-node="5,1,0" data-index-in-node="100">Geometry Dash</i> and broader rhythm gaming ecosystem.</p><ul data-path-to-node="5,1,1"><li><p data-path-to-node="5,1,1,0,0"><b data-path-to-node="5,1,1,0,0" data-index-in-node="0">Boom Kitty</b> brings heavy, bouncy, and aggressive bass lines (think "Burning Sands" or "Peeled").</p></li><li><p data-path-to-node="5,1,1,1,0"><b data-path-to-node="5,1,1,1,0" data-index-in-node="0">MDK</b> (Morgan David King) is famous for finger-breaking, hyper-energetic, video-game-inspired chiptune electro (like "Fingerbang").</p></li></ul></li><li><p data-path-to-node="5,2,0"><b data-path-to-node="5,2,0" data-index-in-node="0">Gameplay Prediction:</b> This track will likely be an absolute chaotic masterpiece. Expect highly rhythmic, syncopated mapping, tricky crossovers, and a relentless BPM that will put your endurance and wrist speed to the test.</p></li></ul><h3 data-path-to-node="6">3. Zakka G</h3><ul data-path-to-node="7"><li><p data-path-to-node="7,0,0"><b data-path-to-node="7,0,0" data-index-in-node="0">The Vibe:</b> Hardcore / Speedcore / J-Core / Artcore.</p></li><li><p data-path-to-node="7,1,0"><b data-path-to-node="7,1,0" data-index-in-node="109">What to Expect:</b> Zakka G is a staple producer in the arcade rhythm game scene (featured heavily in games like <i data-path-to-node="7,1,0" data-index-in-node="109">Arcaea</i>, <i data-path-to-node="7,1,0" data-index-in-node="117">Chunithm</i>, and <i data-path-to-node="7,1,0" data-index-in-node="131">Muse Dash</i>). They specialize in high-BPM, breakcore-infused electronic music that features beautiful, intricate piano melodies layered over devastatingly fast drum beats.</p></li><li><p data-path-to-node="7,2,0"><b data-path-to-node="7,2,0" data-index-in-node="45">Gameplay Prediction:</b> If you are a fan of the <i data-path-to-node="7,2,0" data-index-in-node="45">Camellia</i> tracks in Beat Saber, this is likely where your true Expert+ challenge will hide. Zakka G’s signature speed means this map will heavily favor complex <b data-path-to-node="7,2,0" data-index-in-node="204">Chains</b>, rapid stream patterns, and frantic note densities.</p></li></ul><blockquote data-path-to-node="9"><p data-path-to-node="9,0">💡 <b data-path-to-node="9,0" data-index-in-node="3">Important Platform Reminder:</b> Keep in mind that Beat Games officially ended content updates and support for the PlayStation 4 and PlayStation 5 (PSVR/PSVR2) versions. This means the May 28th anniversary drop will be exclusive to <b data-path-to-node="9,0" data-index-in-node="231">Meta Quest and PCVR (SteamVR)</b> players.</p></blockquote><p data-path-to-node="10">Get your sabers charged—between the rhythmic intensity of Boom Kitty x MDK and the sheer speed of Zakka G, May 28th is going to be a workout! Which of these three tracks are you most excited to clear first?</p></div></article></main>
+        <article data-category="updates">
+            <header class="byline">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/refs/heads/main/channels4_profile.jpg" class="pfp">
+                <span>By <span class="author">Beat Saber Official</span> • May 15, 2026 <span class="reading-time-container"></span></span>
+                <span class="post-tag">Updates</span>
+            </header>
+            <h2>Beat Saber Teased 3 NEW songs for their 8th anniversary</h2>
+            <div class="album-grid" onclick="initLightbox(this)">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/refs/heads/main/fKVGGnInTRw-HD.jpg" class="announcement-img">
+                <div class="hidden-album-pool"></div>
+            </div>
+            <div class="article-body-content">
+                <p>This teaser is incredibly exciting for the <i>Beat Saber</i> community, especially for those who love high-energy, complex electronic music. This release lands on <b>May 28th</b> as part of Beat Games' <b>8th Anniversary celebrations</b>, where they traditionally drop highly anticipated free tracks to thank the community.</p>
+                <p>Here is an expanded breakdown and clarification of what you can expect from these three powerhouse artist pairings:</p>
+                <h3>1. Skybreak &amp; Daeya</h3>
+                <ul>
+                    <li><p><b>The Vibe:</b> Melodic Dubstep / Color Bass / Cinematic EDM.</p></li>
+                    <li><p><b>What to Expect:</b> Skybreak is famous for his incredibly bright, lush, and intricately sound-designed "color bass" (a vibrant, melodic evolution of dubstep). He recently made waves in the game with "Accelerate" (with Teminite) on the Monstercat Mixtape 2. Partnering with Daeya—who is known for her ethereal, soaring, and emotional vocals—means we are almost certainly getting a massive, beautifully melodic bass anthem.</p></li>
+                    <li><p><b>Gameplay Prediction:</b> Expect sweeping <b>Arcs</b> that follow emotional vocal leads, contrasted against fast, bursts of rhythmic streams during the drop.</p></li>
+                </ul>
+                <h3>2. Boom Kitty x MDK</h3>
+                <ul>
+                    <li><p><b>The Vibe:</b> Glitch Hop / Electro House / Chiptune Heavy Bass.</p></li>
+                    <li><p><b>What to Expect:</b> This is a dream collaboration for rhythm game fans. Both artists are legends in the <i>Geometry Dash</i> and broader rhythm gaming ecosystem.</p>
+                        <ul>
+                            <li><p><b>Boom Kitty</b> brings heavy, bouncy, and aggressive bass lines (think "Burning Sands" or "Peeled").</p></li>
+                            <li><p><b>MDK</b> (Morgan David King) is famous for finger-breaking, hyper-energetic, video-game-inspired chiptune electro (like "Fingerbang").</p></li>
+                        </ul>
+                    </li>
+                    <li><p><b>Gameplay Prediction:</b> This track will likely be an absolute chaotic masterpiece. Expect highly rhythmic, syncopated mapping, tricky crossovers, and a relentless BPM that will put your endurance and wrist speed to the test.</p></li>
+                </ul>
+                <h3>3. Zakka G</h3>
+                <ul>
+                    <li><p><b>The Vibe:</b> Hardcore / Speedcore / J-Core / Artcore.</p></li>
+                    <li><p><b>What to Expect:</b> Zakka G is a staple producer in the arcade rhythm game scene (featured heavily in games like <i>Arcaea</i>, <i>Chunithm</i>, and <i>Muse Dash</i>). They specialize in high-BPM, breakcore-infused electronic music that features beautiful, intricate piano melodies layered over devastatingly fast drum beats.</p></li>
+                    <li><p><b>Gameplay Prediction:</b> If you are a fan of the <i>Camellia</i> tracks in Beat Saber, this is likely where your true Expert+ challenge will hide. Zakka G’s signature speed means this map will heavily favor complex <b>Chains</b>, rapid stream patterns, and frantic note densities.</p></li>
+                </ul>
+                <blockquote><p>💡 <b>Important Platform Reminder:</b> Keep in mind that Beat Games officially ended content updates and support for the PlayStation 4 and PlayStation 5 (PSVR/PSVR2) versions. This means the May 28th anniversary drop will be exclusive to <b>Meta Quest and PCVR (SteamVR)</b> players.</p></blockquote>
+                <p>Get your sabers charged—between the rhythmic intensity of Boom Kitty x MDK and the sheer speed of Zakka G, May 28th is going to be a workout! Which of these three tracks are you most excited to clear first?</p>
+            </div>
+        </article>
+    </main>
 
     <div id="globalLightbox" class="lightbox-modal" onclick="closeLightbox()">
         <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();" aria-label="Close UI">×</button>
@@ -526,16 +601,17 @@
                 <h2 id="popupArticleTitle">Announcement Details</h2>
                 <button class="popup-close-btn" onclick="closePopup()">×</button>
             </div>
-            <div id="popupScrollBody" class="popup-body-scroll">
-                </div>
+            <div id="popupScrollBody" class="popup-body-scroll"></div>
         </div>
     </div>
 
     <script>
         const MAX_POSTS_LIMIT = 15; 
-
         let activeImageArray = [];
         let activeImageIndex = 0;
+        
+        // State variables to track filtering
+        let currentSelectedCategory = 'all';
 
         function initLightbox(gridElement) {
             activeImageArray = [];
@@ -552,7 +628,6 @@
             const prevBtn = document.getElementById('lightboxPrev');
             const nextBtn = document.getElementById('lightboxNext');
 
-            // Arrows are hidden if there are 2 or fewer images as requested
             if (activeImageArray.length <= 2) {
                 prevBtn.style.display = 'none';
                 nextBtn.style.display = 'none';
@@ -599,20 +674,32 @@
                     if (e.key === 'ArrowLeft') navigateLightbox(-1);
                 }
             }
-            
             if (popup.classList.contains('show')) {
                 if (e.key === 'Escape') closePopup();
             }
         });
 
-        // --- ADDED: DYNAMIC SEARCH LOGIC ---
-        function filterAnnouncements() {
-            const query = document.getElementById('announcementSearch').value.toLowerCase();
+        // --- UPDATED: TRIGGER COMBINED FILTER WHEN CATEGORY PILL IS CLICKED ---
+        function filterCategory(categoryValue, element) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            currentSelectedCategory = categoryValue;
+            executeCombinedFilter();
+        }
+
+        // --- ADDED: UNIFIED SYSTEM TO HANDLE BOTH SEARCH AND CATEGORY SELECTION AT ONCE ---
+        function executeCombinedFilter() {
+            const searchQuery = document.getElementById('announcementSearch').value.toLowerCase();
             const articles = document.querySelectorAll('article');
-            
+
             articles.forEach(article => {
-                const textContent = article.innerText.toLowerCase();
-                if (textContent.includes(query)) {
+                const articleText = article.innerText.toLowerCase();
+                const articleCategory = article.getAttribute('data-category') || 'all';
+                
+                const matchesSearch = articleText.includes(searchQuery);
+                const matchesCategory = (currentSelectedCategory === 'all' || articleCategory === currentSelectedCategory);
+
+                if (matchesSearch && matchesCategory) {
                     article.style.display = 'block';
                 } else {
                     article.style.display = 'none';
@@ -620,22 +707,17 @@
             });
         }
 
-        // --- ADDED: GAME EMBEDS DETECTOR (One-Click & ScoreSaber) ---
         function processMapEmbeds() {
-            // Find all article bodies on the page
             const bodies = document.querySelectorAll('.article-body-content');
-            
             bodies.forEach(body => {
                 const htmlContent = body.innerHTML;
                 let utilityHtml = '';
                 let hasUtilities = false;
 
-                // 1. Detect BeatSaver Keys (Format: !bsr 1a2b)
                 const bsrRegex = /!bsr\s+([a-fA-F0-9]+)/gi;
                 let bsrMatch;
                 while ((bsrMatch = bsrRegex.exec(htmlContent)) !== null) {
                     const key = bsrMatch[1];
-                    // Prevent duplicate buttons if function runs twice
                     if (!body.querySelector(`[data-key="${key}"]`)) {
                         utilityHtml += `
                             <a href="beatsaver://${key}" class="util-btn" data-key="${key}">One-Click Install (${key})</a>
@@ -645,7 +727,6 @@
                     }
                 }
 
-                // 2. Detect ScoreSaber links
                 const ssRegex = /scoresaber\.com\/u\/(\d+)/gi;
                 let ssMatch;
                 while ((ssMatch = ssRegex.exec(htmlContent)) !== null) {
@@ -658,7 +739,6 @@
                     }
                 }
 
-                // Inject the generated buttons at the bottom of the article
                 if (hasUtilities) {
                     let utilsContainer = body.parentElement.querySelector('.game-utils');
                     if (!utilsContainer) {
@@ -671,15 +751,12 @@
             });
         }
 
-        // --- ADDED: AUTOMATIC READ MORE TRUNCATION MECHANICS ---
         function setupReadMoreFeatures() {
             const bodies = document.querySelectorAll('.article-body-content');
             bodies.forEach(body => {
-                // Check if text content is long enough to warrant a modal container split
                 if (body.scrollHeight > 280) {
                     body.classList.add('truncated-view');
                     
-                    // Create Read More CTA Element
                     const triggerBtn = document.createElement('button');
                     triggerBtn.className = 'read-more-trigger';
                     triggerBtn.innerText = 'Read Full Announcement';
@@ -688,8 +765,28 @@
                         const articleTitle = body.parentElement.querySelector('h2').innerText;
                         openPopup(articleTitle, body.innerHTML);
                     };
-                    
                     body.after(triggerBtn);
+                }
+            });
+        }
+
+        // --- ADDED: DYNAMIC ESTIMATED READING TIME INDICATOR ---
+        function calculateReadingTimes() {
+            const articles = document.querySelectorAll('article');
+            articles.forEach(article => {
+                const bodyContainer = article.querySelector('.article-body-content');
+                const outputElement = article.querySelector('.reading-time-container');
+                
+                if (bodyContainer && outputElement) {
+                    const text = bodyContainer.innerText || "";
+                    // Filter down to alphanumeric words
+                    const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+                    
+                    // Average adult/gamer reading speed is roughly 200-250 words per minute
+                    const wordsPerMinute = 225;
+                    const calculatedMinutes = Math.ceil(wordCount / wordsPerMinute);
+                    
+                    outputElement.innerText = `• ${calculatedMinutes} min read`;
                 }
             });
         }
@@ -711,7 +808,6 @@
             document.body.style.overflow = '';
         }
 
-        // Fix for the timeline wiping issue:
         async function fetchAnnouncements() {
             try {
                 const response = await fetch('https://raw.githubusercontent.com/TSFAlex/TSFAlexHub/refs/heads/main/Data.json');
@@ -723,9 +819,9 @@
 
         window.onload = () => {
             fetchAnnouncements();
-            processMapEmbeds(); // Run the embed script to add One-Click buttons to your hardcoded HTML
-            setupReadMoreFeatures(); // Automatically handle long articles with clean UI components
+            processMapEmbeds();
+            setupReadMoreFeatures();
+            calculateReadingTimes(); // Runs automatically across text pools
         };
     </script>
-
 </body></html>
