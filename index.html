@@ -96,7 +96,7 @@
             background: #050507;
         }
 
-        /* --- ADDED: FILTERING CATEGORY BAR --- */
+        /* FILTERING CATEGORY BAR */
         .category-filter-bar {
             max-width: 800px;
             margin: 16px auto 0 auto;
@@ -104,10 +104,10 @@
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            scrollbar-width: none; /* Hide for Firefox */
+            scrollbar-width: none;
         }
         .category-filter-bar::-webkit-scrollbar {
-            display: none; /* Hide for Chrome/Safari */
+            display: none;
         }
         .filter-btn {
             background: #111115;
@@ -133,7 +133,30 @@
             box-shadow: var(--glow-blue);
         }
 
-        /* --- EMBED/UTILITY SYSTEM --- */
+        /* RESPONSIVE EMBED AND IFRAME HOLDER */
+        .external-embed-container {
+            position: relative;
+            width: 100%;
+            margin-top: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #1f1f2e;
+            background: #050507;
+            aspect-ratio: 16 / 9;
+        }
+
+        .external-embed-container iframe, 
+        .external-embed-container embed, 
+        .external-embed-container object {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            border: 0;
+        }
+
+        /* EMBED/UTILITY SYSTEM */
         .game-utils {
             display: flex;
             gap: 10px;
@@ -212,8 +235,6 @@
             border: 1px solid var(--bs-blue);
         }
 
-        .pfp.hidden { display: none; }
-
         .byline span {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -224,7 +245,6 @@
             font-weight: 600;
         }
 
-        /* --- ADDED: CATEGORY TAG WITHIN CARD --- */
         .post-tag {
             background: rgba(0, 212, 255, 0.1);
             color: var(--bs-blue);
@@ -235,7 +255,7 @@
             text-transform: uppercase;
             font-weight: 700;
             letter-spacing: 0.5px;
-            margin-left: auto; /* Push it to the right side of the byline */
+            margin-left: auto;
         }
 
         h2 {
@@ -540,7 +560,124 @@
     </div>
 
     <main id="announcementContainer">
-        <article data-category="community" data-status="published"><header class="byline"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/CATTAlex pic.jpg" class="pfp"><span>By <span class="author">TSFAlex</span> • May 28, 2026 <span class="reading-time-container"></span></span><span class="post-tag">community</span></header><h2>TSFAlex new vide of his new OST 9 !</h2><div class="album-grid" onclick="initLightbox(this)"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/Gemini_Generated_Image_u93alxu93alxu93a-clean.png" class="announcement-img"><div class="hidden-album-pool"></div></div><div class="article-body-content">TSFAlex just released his new OST 9 video it goes hard.</div><div class="external-embed-frame"><iframe width="951" height="535" src="https://www.youtube.com/embed/YNbVSSXelj4" title="I made my OWN OST 9 and it goes CRAZY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe></div></article><article data-category="updates" data-status="published"><header class="byline"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/image.png" class="pfp"><span>By <span class="author">ScoreSaber</span> • May 16, 2026 <span class="reading-time-container"></span></span><span class="post-tag">updates</span></header><h2>ScoreSaber 2 is coming...</h2><div class="album-grid" onclick="initLightbox(this)"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/image.png" class="announcement-img"><div class="hidden-album-pool"></div></div><div class="article-body-content"><p data-path-to-node="0">ScoreSaber 2 launches on Monday, May 25 at 4:00pm EST.</p><p data-path-to-node="1">ScoreSaber has existed since May 8, 2018. When I first made it, the goal was simple: just your friendly neighbourhood leaderboard with support for custom songs. Then PPv1 / PPv2 happened, the ranking system happened, replay systems 1 &amp; 2 happened.</p><p data-path-to-node="2">That growth felt amazing and it was super fun to iterate so fast back then, but the foundation underneath didn't exactly keep up.</p><p data-path-to-node="3">For years, new features were bolted onto systems that were never designed for them. Sometimes that worked... Sometimes it very much didn't. Eventually, almost every meaningful change had to fight the old backend, the old database, the old deployment setup or all 3 at once.</p><p data-path-to-node="4">So what is ScoreSaber 2?</p><p data-path-to-node="5">It's pretty much the update that gets us moving again (and a bunch of other cool stuff, I promise—just keep reading).</p><h2 data-path-to-node="6">The Re-code</h2><p data-path-to-node="7">The old database went all the way back to the first version of ScoreSaber. Every player, leaderboard and score was sitting on top of decisions I made when I was mostly just trying to get the thing working.</p><p data-path-to-node="8">It held on for dear life for a surprisingly long time, but development slowly turned into archaeology. It was time for that to stop.</p><p data-path-to-node="9">The database layer has moved to postgres with a completely redesigned data model. The backend has a new API, much stricter validation, proper background jobs, better monitoring and logging and doesn't make me want to cry everytime I go to touch it.</p><p data-path-to-node="10">The frontend has also been rebuilt with Next.js around the new API, moving away from the very, very beta version of svelte-kit we used on the old frontend which has kept us shackled for so long.</p><p data-path-to-node="11">For third party devs, the new public API is properly automatically generated and has OpenAPI support.</p><p data-path-to-node="12">Also—the old API isn't being switched off; ScoreSaber 2 has a compatibility layer for the existing website API, game API and legacy clients. A lot of tools, overlays, mods and scripts depend on ScoreSaber behaving a certain way and it'd be pretty rude to break all of them overnight. New things will live on the new API.</p><h2 data-path-to-node="13">Bus Factor</h2><p data-path-to-node="14">This is probably the least exciting section to read, but long term it might matter more than most of the shiny stuff.</p><p data-path-to-node="15">For a long time, because of how ScoreSaber was deployed, I never felt comfortable giving anyone else deep server access. The setup worked, but it relied on old infrastructure, manual process and too much knowledge sitting in my head.</p><p data-path-to-node="16">ScoreSaber 2 fixes a lot of that. Deployment is simpler, more automated and much easier for trusted developers to operate safely. Qwasyx will have full access to the new deployment platform for maintenance and custom jobs like reweights, and other members of the development team will have access where appropriate.</p><p data-path-to-node="17">When releasing something is painful, risky or requires one specific person to be awake and available, you release less. You avoid touching things.</p><p data-path-to-node="18">Once the dust settles, we also plan to open up the ScoreSaber development team to more people and open source a much larger chunk of ScoreSaber than we already have.</p><h2 data-path-to-node="19">Realms</h2><p data-path-to-node="20">Realms are one of the reasons the re-code was worth doing. The idea was originally inspired by ReBeat, a scoring system designed by Astrella.</p><p data-path-to-node="21">A realm is basically a separate scoring context inside ScoreSaber. It can have its own ranked maps, PP curve, modifier values, player stats, history and leaderboards.</p><p data-path-to-node="22">At launch, everyone will use the main realm, which is ScoreSaber as you know it today. Realms let us test new ranking systems and PP curves on real scores without blowing up the main realm. They can also be used for seasonal rankings, tournament rankings or something silly like a realm where base game positive modifiers are actually worth something.</p><h2 data-path-to-node="23">More Data</h2><p data-path-to-node="24">We upgraded our server in 2024 for the future version of ScoreSaber we'd been planning.</p><p data-path-to-node="25">The old ScoreSaber data model was pretty lossy. In many places, we only stored the latest state of something, not how it got there. In ScoreSaber 2, every submitted score is recorded and kept indefinitely. Your visible PB still behaves how you expect, but the underlying history is no longer thrown away.</p><p data-path-to-node="26">We're also logging a lot more state changes as structured data now. Player aliases, country changes, bans, role changes, leaderboard status changes, PP changes, ranking request activity and replay views all have real structure behind them.</p><p data-path-to-node="27">The next mod refresh will also let us start submitting fails and quits. Those won't affect ranking, but they're extremely useful for understanding play patterns, map difficulty, practice behaviour and common failure plots.</p><h2 data-path-to-node="28">Accounts</h2><p data-path-to-node="29">Meta account handling has been one of the longest-running annoyances in ScoreSaber. Historically, Steam was the clean path for website login and account management. If you bought Beat Saber through the Meta/Oculus store and played through the Meta Link app, you were stuck in a strange place.</p><p data-path-to-node="30">ScoreSaber 2 lets you sign in to the website with your Meta account and use the same niceties the rest of the community gets.</p><p data-path-to-node="31">Player aliases are also tracked now. Account settings now properly support connections for Steam, Meta, Patreon and Discord. Patreon linking is also now being treated as a proper account connection, which'll make supporter features feel a whole lot nicer.</p><h2 data-path-to-node="32">Replay Storage</h2><p data-path-to-node="33">Replays are one of the coolest parts of ScoreSaber, but they're also large enough that keeping every replay forever isn't realistic without limits.</p><p data-path-to-node="34">The new system is much clearer:</p><ul data-path-to-node="35"><li><p data-path-to-node="35,0,0">Every current PB replay upload is stored first.</p></li><li><p data-path-to-node="35,1,0">Every current PB replay is guaranteed to remain available for at least 30 days.</p></li><li><p data-path-to-node="35,2,0">Ranked leaderboards keep the top 1,000 current PB replays indefinitely.</p></li><li><p data-path-to-node="35,3,0">Unranked leaderboards keep the top 15 current PB replays indefinitely.</p></li><li><p data-path-to-node="35,4,0">Replaced PB replays are kept for 7 days before they can be cleaned up.</p></li></ul><p data-path-to-node="36">Supporters will also get extra replay slots:</p><ul data-path-to-node="37"><li><p data-path-to-node="37,0,0">$2/month supporters get 5,000 extra replay slots.</p></li><li><p data-path-to-node="37,1,0">$5/month supporters get 20,000 extra replay slots.</p></li></ul><p data-path-to-node="38">There'll be a replay management page in settings showing how many slots you have, which replays are using them and which replays can be claimed or released.</p><h2 data-path-to-node="39">The New Website</h2><p data-path-to-node="40">It's faster, cleaner, mobile-friendly and server-rendered.</p><h3 data-path-to-node="41">Maps</h3><p data-path-to-node="42">The maps page is built around mapsets instead of a flat list of leaderboards. ScoreSaber now has a proper map model, so difficulties can be grouped under the mapset they belong to.</p><h3 data-path-to-node="43">Rankings</h3><p data-path-to-node="44">You can now jump to yourself, view players around you, view friends and include or exclude inactive players.</p><h3 data-path-to-node="45">Leaderboards</h3><p data-path-to-node="46">You can switch difficulties and game modes much more cleanly now. You can filter scores by friends, country and around me. If a map has an associated ranking request, the leaderboard page can show it directly in a tab.</p><h3 data-path-to-node="47">Scores</h3><p data-path-to-node="48">Scores now carry a lot more context. The device display has been rebuilt with proper headset and controller support. We have handling for 58 headset labels and 40 controller labels.</p><p data-path-to-node="49">ScoreSaber can now display per-hand accuracy, grid cut quality, miss and bad cut breakdowns, max 115 streak, estimated FC accuracy, accuracy over time and more.</p><h3 data-path-to-node="50">Replays</h3><p data-path-to-node="51">Replays now work in the browser, powered by ArcViewer. We've modified the viewer to be able to synthesize missing events from very old replay files, meaning you can open a score from forever ago and still watch it.</p><h2 data-path-to-node="52">Social</h2><p data-path-to-node="53">ScoreSaber now has a follower and following system. Some relationships are automatically sourced from platform friends, and you can follow people manually too.</p><p data-path-to-node="54">There's more social stuff coming after launch:</p><ul data-path-to-node="55"><li><p data-path-to-node="55,0,0">A home feed built around scores.</p></li><li><p data-path-to-node="55,1,0">Likes and comments on scores.</p></li></ul><h2 data-path-to-node="56">Mods</h2><p data-path-to-node="57">There won't be a PC or Quest mod update on ScoreSaber 2 release day. The new backend is fully backwards compatible, so the current mods should keep working. The mod refresh is next on the list, with an aim for mid-June.</p><h2 data-path-to-node="58">Project Ludus</h2><p data-path-to-node="59">Ludus is a project I've been working on to allow for high-quality, synchronized spectating and tournament broadcasting. It allows one game instance to render multiple players' points of view at the same time with very little performance overhead.</p><p data-path-to-node="60">The goal is to provide an end-to-end tournament platform hosted by ScoreSaber. Players can participate through the normal mod without needing to stream or install extra third-party tournament mods. Broadcasters can capture the whole match easily, and viewers can potentially open a live POV of their favourite player in-browser or in-game.</p><h2 data-path-to-node="61">PPv3</h2><p data-path-to-node="62">Development never fully stopped, but it slowed down. Once ScoreSaber 2 is out, we can give it real attention again. PPv3 can be tested in a separate realm, with real scores, real rankings and real player data all without forcing the main realm to change before the community has had a chance to see how it behaves.</p><h2 data-path-to-node="63">Timeline</h2><ul data-path-to-node="64"><li><p data-path-to-node="64,0,0"><b data-path-to-node="64,0,0" data-index-in-node="0">ScoreSaber 2:</b> May 25th @ 4:00pm EST</p></li><li><p data-path-to-node="64,1,0"><b data-path-to-node="64,1,0" data-index-in-node="0">PC &amp; Quest mod refresh:</b> Mid-June</p></li><li><p data-path-to-node="64,2,0"><b data-path-to-node="64,2,0" data-index-in-node="0">Social features:</b> Mid-July</p></li><li><p data-path-to-node="64,3,0"><b data-path-to-node="64,3,0" data-index-in-node="0">Tournament client:</b> Sometime post-BSWC</p></li></ul><h2 data-path-to-node="65">Wrapping Up</h2><p data-path-to-node="66">This update has taken far longer than I ever wanted. Thank you for being patient anyway. Thank you to everyone who kept playing, mapping, ranking, supporting the Patreon, helping in Discord and caring enough to still be here.</p><p data-path-to-node="67">We're not done, ScoreSaber has only just been defrosted. Development can be ongoing and active again instead of happening in painful bursts. See ya on the 25th.</p></div></article><article data-category="updates">
+        <article data-category="community" data-status="published">
+            <header class="byline">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/CATTAlex pic.jpg" class="pfp">
+                <span>By <span class="author">TSFAlex</span> • May 28, 2026 <span class="reading-time-container"></span></span>
+                <span class="post-tag">community</span>
+            </header>
+            <h2>TSFAlex new vide of his new OST 9 !</h2>
+            <div class="album-grid" onclick="initLightbox(this)">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/Gemini_Generated_Image_u93alxu93alxu93a-clean.png" class="announcement-img">
+                <div class="hidden-album-pool"></div>
+            </div>
+            <div class="article-body-content">TSFAlex just released his new OST 9 video it goes hard.</div>
+            <div class="external-embed-container">
+                <iframe src="https://www.youtube.com/embed/YNbVSSXelj4" title="I made my OWN OST 9 and it goes CRAZY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+            </div>
+        </article>
+
+        <article data-category="updates" data-status="published">
+            <header class="byline">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/image.png" class="pfp">
+                <span>By <span class="author">ScoreSaber</span> • May 16, 2026 <span class="reading-time-container"></span></span>
+                <span class="post-tag">updates</span>
+            </header>
+            <h2>ScoreSaber 2 is coming...</h2>
+            <div class="album-grid" onclick="initLightbox(this)">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/image.png" class="announcement-img">
+                <div class="hidden-album-pool"></div>
+            </div>
+            <div class="article-body-content">
+                <p data-path-to-node="0">ScoreSaber 2 launches on Monday, May 25 at 4:00pm EST.</p>
+                <p data-path-to-node="1">ScoreSaber has existed since May 8, 2018. When I first made it, the goal was simple: just your friendly neighbourhood leaderboard with support for custom songs. Then PPv1 / PPv2 happened, the ranking system happened, replay systems 1 &amp; 2 happened.</p>
+                <p data-path-to-node="2">That growth felt amazing and it was super fun to iterate so fast back then, but the foundation underneath didn't exactly keep up.</p>
+                <p data-path-to-node="3">For years, new features were bolted onto systems that were never designed for them. Sometimes that worked... Sometimes it very much didn't. Eventually, almost every meaningful change had to fight the old backend, the old database, the old deployment setup or all 3 at once.</p>
+                <p data-path-to-node="4">So what is ScoreSaber 2?</p>
+                <p data-path-to-node="5">It's pretty much the update that gets us moving again (and a bunch of other cool stuff, I promise—just keep reading).</p>
+                <h2 data-path-to-node="6">The Re-code</h2>
+                <p data-path-to-node="7">The old database went all the way back to the first version of ScoreSaber. Every player, leaderboard and score was sitting on top of decisions I made when I was mostly just trying to get the thing working.</p>
+                <p data-path-to-node="8">It held on for dear life for a surprisingly long time, but development slowly turned into archaeology. It was time for that to stop.</p>
+                <p data-path-to-node="9">The database layer has moved to postgres with a completely redesigned data model. The backend has a new API, much stricter validation, proper background jobs, better monitoring and logging and doesn't make me want to cry everytime I go to touch it.</p>
+                <p data-path-to-node="10">The frontend has also been rebuilt with Next.js around the new API, moving away from the very, very beta version of svelte-kit we used on the old frontend which has kept us shackled for so long.</p>
+                <p data-path-to-node="11">For third party devs, the new public API is properly automatically generated and has OpenAPI support.</p>
+                <p data-path-to-node="12">Also—the old API isn't being switched off; ScoreSaber 2 has a compatibility layer for the existing website API, game API and legacy clients. A lot of tools, overlays, mods and scripts depend on ScoreSaber behaving a certain way and it'd be pretty rude to break all of them overnight. New things will live on the new API.</p>
+                <h2 data-path-to-node="13">Bus Factor</h2>
+                <p data-path-to-node="14">This is probably the least exciting section to read, but long term it might matter more than most of the shiny stuff.</p>
+                <p data-path-to-node="15">For a long time, because of how ScoreSaber was deployed, I never felt comfortable giving anyone else deep server access. The setup worked, but it relied on old infrastructure, manual process and too much knowledge sitting in my head.</p>
+                <p data-path-to-node="16">ScoreSaber 2 fixes a lot of that. Deployment is simpler, more automated and much easier for trusted developers to operate safely. Qwasyx will have full access to the new deployment platform for maintenance and custom jobs like reweights, and other members of the development team will have access where appropriate.</p>
+                <p data-path-to-node="17">When releasing something is painful, risky or requires one specific person to be awake and available, you release less. You avoid touching things.</p>
+                <p data-path-to-node="18">Once the dust settles, we also plan to open up the ScoreSaber development team to more people and open source a much larger chunk of ScoreSaber than we already have.</p>
+                <h2 data-path-to-node="19">Realms</h2>
+                <p data-path-to-node="20">Realms are one of the reasons the re-code was worth doing. The idea was originally inspired by ReBeat, a scoring system designed by Astrella.</p>
+                <p data-path-to-node="21">A realm is basically a separate scoring context inside ScoreSaber. It can have its own ranked maps, PP curve, modifier values, player stats, history and leaderboards.</p>
+                <p data-path-to-node="22">At launch, everyone will use the main realm, which is ScoreSaber as you know it today. Realms let us test new ranking systems and PP curves on real scores without blowing up the main realm. They can also be used for seasonal rankings, tournament rankings or something silly like a realm where base game positive modifiers are actually worth something.</p>
+                <h2 data-path-to-node="23">More Data</h2>
+                <p data-path-to-node="24">We upgraded our server in 2024 for the future version of ScoreSaber we'd been planning.</p>
+                <p data-path-to-node="25">The old ScoreSaber data model was pretty lossy. In many places, we only stored the latest state of something, not how it got there. In ScoreSaber 2, every submitted score is recorded and kept indefinitely. Your visible PB still behaves how you expect, but the underlying history is no longer thrown away.</p>
+                <p data-path-to-node="26">We're also logging a lot more state changes as structured data now. Player aliases, country changes, bans, role changes, leaderboard status changes, PP changes, ranking request activity and replay views all have real structure behind them.</p>
+                <p data-path-to-node="27">The next mod refresh will also let us start submitting fails and quits. Those won't affect ranking, but they're extremely useful for understanding play patterns, map difficulty, practice behaviour and common failure plots.</p>
+                <h2 data-path-to-node="28">Accounts</h2>
+                <p data-path-to-node="29">Meta account handling has been one of the longest-running annoyances in ScoreSaber. Historically, Steam was the clean path for website login and account management. If you bought Beat Saber through the Meta/Oculus store and played through the Meta Link app, you were stuck in a strange place.</p>
+                <p data-path-to-node="30">ScoreSaber 2 lets you sign in to the website with your Meta account and use the same niceties the rest of the community gets.</p>
+                <p data-path-to-node="31">Player aliases are also tracked now. Account settings now properly support connections for Steam, Meta, Patreon and Discord. Patreon linking is also now being treated as a proper account connection, which'll make supporter features feel a whole lot nicer.</p>
+                <h2 data-path-to-node="32">Replay Storage</h2>
+                <p data-path-to-node="33">Replays are one of the coolest parts of ScoreSaber, but they're also large enough that keeping every replay forever isn't realistic without limits.</p>
+                <p data-path-to-node="34">The new system is much clearer:</p>
+                <ul data-path-to-node="35">
+                    <li><p data-path-to-node="35,0,0">Every current PB replay upload is stored first.</p></li>
+                    <li><p data-path-to-node="35,1,0">Every current PB replay is guaranteed to remain available for at least 30 days.</p></li>
+                    <li><p data-path-to-node="35,2,0">Ranked leaderboards keep the top 1,000 current PB replays indefinitely.</p></li>
+                    <li><p data-path-to-node="35,3,0">Unranked leaderboards keep the top 15 current PB replays indefinitely.</p></li>
+                    <li><p data-path-to-node="35,4,0">Replaced PB replays are kept for 7 days before they can be cleaned up.</p></li>
+                </ul>
+                <p data-path-to-node="36">Supporters will also get extra replay slots:</p>
+                <ul data-path-to-node="37">
+                    <li><p data-path-to-node="37,0,0">$2/month supporters get 5,000 extra replay slots.</p></li>
+                    <li><p data-path-to-node="37,1,0">$5/month supporters get 20,000 extra replay slots.</p></li>
+                </ul>
+                <p data-path-to-node="38">There'll be a replay management page in settings showing how many slots you have, which replays are using them and which replays can be claimed or released.</p>
+                <h2 data-path-to-node="39">The New Website</h2>
+                <p data-path-to-node="40">It's faster, cleaner, mobile-friendly and server-rendered.</p>
+                <h3 data-path-to-node="41">Maps</h3>
+                <p data-path-to-node="42">The maps page is built around mapsets instead of a flat list of leaderboards. ScoreSaber now has a proper map model, so difficulties can be grouped under the mapset they belong to.</p>
+                <h3 data-path-to-node="43">Rankings</h3>
+                <p data-path-to-node="44">You can now jump to yourself, view players around you, view friends and include or exclude inactive players.</p>
+                <h3 data-path-to-node="45">Leaderboards</h3>
+                <p data-path-to-node="46">You can switch difficulties and game modes much more cleanly now. You can filter scores by friends, country and around me. If a map has an associated ranking request, the leaderboard page can show it directly in a tab.</p>
+                <h3 data-path-to-node="47">Scores</h3>
+                <p data-path-to-node="48">Scores now carry a lot more context. The device display has been rebuilt with proper headset and controller support. We have handling for 58 headset labels and 40 controller labels.</p>
+                <p data-path-to-node="49">ScoreSaber can now display per-hand accuracy, grid cut quality, miss and bad cut breakdowns, max 115 streak, estimated FC accuracy, accuracy over time and more.</p>
+                <h3 data-path-to-node="50">Replays</h3>
+                <p data-path-to-node="51">Replays now work in the browser, powered by ArcViewer. We've modified the viewer to be able to synthesize missing events from very old replay files, meaning you can open a score from forever ago and still watch it.</p>
+                <h2 data-path-to-node="52">Social</h2>
+                <p data-path-to-node="53">ScoreSaber now has a follower and following system. Some relationships are automatically sourced from platform friends, and you can follow people manually too.</p>
+                <p data-path-to-node="54">There's more social stuff coming after launch:</p>
+                <ul data-path-to-node="55">
+                    <li><p data-path-to-node="55,0,0">A home feed built around scores.</p></li>
+                    <li><p data-path-to-node="55,1,0">Likes and comments on scores.</p></li>
+                </ul>
+                <h2 data-path-to-node="56">Mods</h2>
+                <p data-path-to-node="57">There won't be a PC or Quest mod update on ScoreSaber 2 release day. The new backend is fully backwards compatible, so the current mods should keep working. The mod refresh is next on the list, with an aim for mid-June.</p>
+                <h2 data-path-to-node="58">Project Ludus</h2>
+                <p data-path-to-node="59">Ludus is a project I've been working on to allow for high-quality, synchronized spectating and tournament broadcasting. It allows one game instance to render multiple players' points of view at the same time with very little performance overhead.</p>
+                <p data-path-to-node="60">The goal is to provide an end-to-end tournament platform hosted by ScoreSaber. Players can participate through the normal mod without needing to stream or install extra third-party tournament mods. Broadcasters can capture the whole match easily, and viewers can potentially open a live POV of their favourite player in-browser or in-game.</p>
+                <h2 data-path-to-node="61">PPv3</h2>
+                <p data-path-to-node="62">Development never fully stopped, but it slowed down. Once ScoreSaber 2 is out, we can give it real attention again. PPv3 can be tested in a separate realm, with real scores, real rankings and real player data all without forcing the main realm to change before the community has had a chance to see how it behaves.</p>
+                <h2 data-path-to-node="63">Timeline</h2>
+                <ul data-path-to-node="64">
+                    <li><p data-path-to-node="64,0,0"><b data-path-to-node="64,0,0" data-index-in-node="0">ScoreSaber 2:</b> May 25th @ 4:00pm EST</p></li>
+                    <li><p data-path-to-node="64,1,0"><b data-path-to-node="64,1,0" data-index-in-node="0">PC &amp; Quest mod refresh:</b> Mid-June</p></li>
+                    <li><p data-path-to-node="64,2,0"><b data-path-to-node="64,2,0" data-index-in-node="0">Social features:</b> Mid-July</p></li>
+                    <li><p data-path-to-node="64,3,0"><b data-path-to-node="64,3,0" data-index-in-node="0">Tournament client:</b> Sometime post-BSWC</p></li>
+                </ul>
+                <h2 data-path-to-node="65">Wrapping Up</h2>
+                <p data-path-to-node="66">This update has taken far longer than I ever wanted. Thank you for being patient anyway. Thank you to everyone who kept playing, mapping, ranking, supporting the Patreon, helping in Discord and caring enough to still be here.</p>
+                <p data-path-to-node="67">We're not done, ScoreSaber has only just been defrosted. Development can be ongoing and active again instead of happening in painful bursts. See ya on the 25th.</p>
+            </div>
+        </article>
+
+        <article data-category="updates">
             <header class="byline">
                 <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/refs/heads/main/channels4_profile.jpg" class="pfp">
                 <span>By <span class="author">Beat Saber Official</span> • May 15, 2026 <span class="reading-time-container"></span></span>
@@ -557,7 +694,7 @@
                 <h3>1. Skybreak &amp; Daeya</h3>
                 <ul>
                     <li><p><b>The Vibe:</b> Melodic Dubstep / Color Bass / Cinematic EDM.</p></li>
-                    <li><p><b>What to Expect:</b> Skybreak is famous for his incredibly bright, lush, and intricately sound-designed "color bass" (a vibrant, melodic evolution of dubstep). He recently made waves in the game with "Accelerate" (with Teminite) on the Monstercat Mixtape 2. Partnering with Daeya—who is known for her ethereal, soaring, and emotional vocals—means we are almost certainly getting a massive, beautifully melodic bass anthem.</p></li>
+                    <li><p><b>What to Expect:</b> Skybreak is famous for his incredibly bright, lush, and intricately sound-designed "color bass". He recently made waves in the game with "Accelerate" (with Teminite) on the Monstercat Mixtape 2. Partnering with Daeya—who is known for her ethereal, soaring, and emotional vocals—means we are almost certainly getting a massive, beautifully melodic bass anthem.</p></li>
                     <li><p><b>Gameplay Prediction:</b> Expect sweeping <b>Arcs</b> that follow emotional vocal leads, contrasted against fast, bursts of rhythmic streams during the drop.</p></li>
                 </ul>
                 <h3>2. Boom Kitty x MDK</h3>
@@ -605,6 +742,215 @@
         </div>
     </div>
 
-    <script><br>        const MAX_POSTS_LIMIT = 15; <br>        let activeImageArray = [];<br>        let activeImageIndex = 0;<br>        <br>        // State variables to track filtering<br>        let currentSelectedCategory = 'all';<br><br>        function initLightbox(gridElement) {<br>            activeImageArray = [];<br>            activeImageIndex = 0;<br><br>            const primaryImg = gridElement.querySelector('.announcement-img');<br>            if (primaryImg) activeImageArray.push(primaryImg.src);<br><br>            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');<br>            structuralPool.forEach(img => activeImageArray.push(img.src));<br><br>            if (activeImageArray.length === 0) return;<br><br>            const prevBtn = document.getElementById('lightboxPrev');<br>            const nextBtn = document.getElementById('lightboxNext');<br><br>            if (activeImageArray.length <= 2) {<br>                prevBtn.style.display = 'none';<br>                nextBtn.style.display = 'none';<br>            } else {<br>                prevBtn.style.display = 'flex';<br>                nextBtn.style.display = 'flex';<br>            }<br><br>            renderLightboxFrame();<br>            <br>            const modal = document.getElementById('globalLightbox');<br>            modal.style.display = 'flex';<br>            setTimeout(() => modal.classList.add('show'), 10);<br>            document.body.style.overflow = 'hidden';<br>        }<br><br>        function renderLightboxFrame() {<br>            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];<br>            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;<br>        }<br><br>        function navigateLightbox(direction) {<br>            activeImageIndex += direction;<br>            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;<br>            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;<br>            renderLightboxFrame();<br>        }<br><br>        function closeLightbox() {<br>            const modal = document.getElementById('globalLightbox');<br>            modal.classList.remove('show');<br>            setTimeout(() => modal.style.display = 'none', 200);<br>            document.body.style.overflow = '';<br>        }<br><br>        document.addEventListener('keydown', (e) => {<br>            const modal = document.getElementById('globalLightbox');<br>            const popup = document.getElementById('readMorePopup');<br>            <br>            if (modal.classList.contains('show')) {<br>                if (e.key === 'Escape') closeLightbox();<br>                if (activeImageArray.length > 2) {<br>                    if (e.key === 'ArrowRight') navigateLightbox(1);<br>                    if (e.key === 'ArrowLeft') navigateLightbox(-1);<br>                }<br>            }<br>            if (popup.classList.contains('show')) {<br>                if (e.key === 'Escape') closePopup();<br>            }<br>        });<br><br>        // --- UPDATED: TRIGGER COMBINED FILTER WHEN CATEGORY PILL IS CLICKED ---<br>        function filterCategory(categoryValue, element) {<br>            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));<br>            element.classList.add('active');<br>            currentSelectedCategory = categoryValue;<br>            executeCombinedFilter();<br>        }<br><br>        // --- ADDED: UNIFIED SYSTEM TO HANDLE BOTH SEARCH AND CATEGORY SELECTION AT ONCE ---<br>        function executeCombinedFilter() {<br>            const searchQuery = document.getElementById('announcementSearch').value.toLowerCase();<br>            const articles = document.querySelectorAll('article');<br><br>            articles.forEach(article => {<br>                const articleText = article.innerText.toLowerCase();<br>                const articleCategory = article.getAttribute('data-category') || 'all';<br>                <br>                const matchesSearch = articleText.includes(searchQuery);<br>                const matchesCategory = (currentSelectedCategory === 'all' || articleCategory === currentSelectedCategory);<br><br>                if (matchesSearch && matchesCategory) {<br>                    article.style.display = 'block';<br>                } else {<br>                    article.style.display = 'none';<br>                }<br>            });<br>        }<br><br>        function processMapEmbeds() {<br>            const bodies = document.querySelectorAll('.article-body-content');<br>            bodies.forEach(body => {<br>                const htmlContent = body.innerHTML;<br>                let utilityHtml = '';<br>                let hasUtilities = false;<br><br>                const bsrRegex = /!bsr\s+([a-fA-F0-9]+)/gi;<br>                let bsrMatch;<br>                while ((bsrMatch = bsrRegex.exec(htmlContent)) !== null) {<br>                    const key = bsrMatch[1];<br>                    if (!body.querySelector(`[data-key="${key}"]`)) {<br>                        utilityHtml += `<br>                            <a href="beatsaver://${key}" class="util-btn" data-key="${key}">One-Click Install (${key})</a><br>                            <a href="https://beatsaver.com/maps/${key}" target="_blank" class="util-btn" data-key="${key}">View Map</a><br>                        `;<br>                        hasUtilities = true;<br>                    }<br>                }<br><br>                const ssRegex = /scoresaber\.com\/u\/(\d+)/gi;<br>                let ssMatch;<br>                while ((ssMatch = ssRegex.exec(htmlContent)) !== null) {<br>                    const ssId = ssMatch[1];<br>                    if (!body.querySelector(`[data-ssid="${ssId}"]`)) {<br>                        utilityHtml += `<br>                            <a href="https://scoresaber.com/u/${ssId}" target="_blank" class="util-btn scoresaber" data-ssid="${ssId}">View ScoreSaber Profile</a><br>                        `;<br>                        hasUtilities = true;<br>                    }<br>                }<br><br>                if (hasUtilities) {<br>                    let utilsContainer = body.parentElement.querySelector('.game-utils');<br>                    if (!utilsContainer) {<br>                        utilsContainer = document.createElement('div');<br>                        utilsContainer.className = 'game-utils';<br>                        body.parentElement.appendChild(utilsContainer);<br>                    }<br>                    utilsContainer.innerHTML += utilityHtml;<br>                }<br>            });<br>        }<br><br>        function setupReadMoreFeatures() {<br>            const bodies = document.querySelectorAll('.article-body-content');<br>            bodies.forEach(body => {<br>                if (body.scrollHeight > 280) {<br>                    body.classList.add('truncated-view');<br>                    <br>                    const triggerBtn = document.createElement('button');<br>                    triggerBtn.className = 'read-more-trigger';<br>                    triggerBtn.innerText = 'Read Full Announcement';<br>                    <br>                    triggerBtn.onclick = () => {<br>                        const articleTitle = body.parentElement.querySelector('h2').innerText;<br>                        openPopup(articleTitle, body.innerHTML);<br>                    };<br>                    body.after(triggerBtn);<br>                }<br>            });<br>        }<br><br>        // --- ADDED: DYNAMIC ESTIMATED READING TIME INDICATOR ---<br>        function calculateReadingTimes() {<br>            const articles = document.querySelectorAll('article');<br>            articles.forEach(article => {<br>                const bodyContainer = article.querySelector('.article-body-content');<br>                const outputElement = article.querySelector('.reading-time-container');<br>                <br>                if (bodyContainer && outputElement) {<br>                    const text = bodyContainer.innerText || "";<br>                    // Filter down to alphanumeric words<br>                    const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;<br>                    <br>                    // Average adult/gamer reading speed is roughly 200-250 words per minute<br>                    const wordsPerMinute = 225;<br>                    const calculatedMinutes = Math.ceil(wordCount / wordsPerMinute);<br>                    <br>                    outputElement.innerText = `• ${calculatedMinutes} min read`;<br>                }<br>            });<br>        }<br><br>        function openPopup(title, fullHtmlContent) {<br>            document.getElementById('popupArticleTitle').innerText = title;<br>            document.getElementById('popupScrollBody').innerHTML = fullHtmlContent;<br>            <br>            const popup = document.getElementById('readMorePopup');<br>            popup.style.display = 'flex';<br>            setTimeout(() => popup.classList.add('show'), 10);<br>            document.body.style.overflow = 'hidden';<br>        }<br><br>        function closePopup() {<br>            const popup = document.getElementById('readMorePopup');<br>            popup.classList.remove('show');<br>            setTimeout(() => popup.style.display = 'none', 200);<br>            document.body.style.overflow = '';<br>        }<br><br>        async function fetchAnnouncements() {<br>            try {<br>                const response = await fetch('https://raw.githubusercontent.com/TSFAlex/TSFAlexHub/refs/heads/main/Data.json');<br>                if (!response.ok) throw new Error("JSON Fetch Failed");<br>            } catch (err) {<br>                console.warn("External timeline data not found. Loading static DOM elements only.");<br>            }<br>        }<br><br>        window.onload = () => {<br>            fetchAnnouncements();<br>            processMapEmbeds();<br>            setupReadMoreFeatures();<br>            calculateReadingTimes(); // Runs automatically across text pools<br>        };<br>    </script>
+    <script>
+        let activeImageArray = [];
+        let activeImageIndex = 0;
+        let currentSelectedCategory = 'all';
+
+        function initLightbox(gridElement) {
+            activeImageArray = [];
+            activeImageIndex = 0;
+
+            const primaryImg = gridElement.querySelector('.announcement-img');
+            if (primaryImg) activeImageArray.push(primaryImg.src);
+
+            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');
+            structuralPool.forEach(img => activeImageArray.push(img.src));
+
+            if (activeImageArray.length === 0) return;
+
+            const prevBtn = document.getElementById('lightboxPrev');
+            const nextBtn = document.getElementById('lightboxNext');
+
+            if (activeImageArray.length <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+            }
+
+            renderLightboxFrame();
+            
+            const modal = document.getElementById('globalLightbox');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function renderLightboxFrame() {
+            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];
+            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;
+        }
+
+        function navigateLightbox(direction) {
+            activeImageIndex += direction;
+            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;
+            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;
+            renderLightboxFrame();
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('globalLightbox');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 200);
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('globalLightbox');
+            const popup = document.getElementById('readMorePopup');
+            
+            if (modal.classList.contains('show')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (activeImageArray.length > 1) {
+                    if (e.key === 'ArrowRight') navigateLightbox(1);
+                    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                }
+            }
+            if (popup.classList.contains('show')) {
+                if (e.key === 'Escape') closePopup();
+            }
+        });
+
+        function filterCategory(categoryValue, element) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            currentSelectedCategory = categoryValue;
+            executeCombinedFilter();
+        }
+
+        function executeCombinedFilter() {
+            const searchQuery = document.getElementById('announcementSearch').value.toLowerCase();
+            const articles = document.querySelectorAll('article');
+
+            articles.forEach(article => {
+                const articleText = article.innerText.toLowerCase();
+                const articleCategory = article.getAttribute('data-category') || 'all';
+                
+                const matchesSearch = articleText.includes(searchQuery);
+                const matchesCategory = (currentSelectedCategory === 'all' || articleCategory === currentSelectedCategory);
+
+                if (matchesSearch && matchesCategory) {
+                    article.style.display = 'block';
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+        }
+
+        function processMapEmbeds() {
+            const bodies = document.querySelectorAll('.article-body-content');
+            bodies.forEach(body => {
+                const htmlContent = body.innerHTML;
+                let utilityHtml = '';
+                let hasUtilities = false;
+
+                const bsrRegex = /!bsr\s+([a-fA-F0-9]+)/gi;
+                let bsrMatch;
+                while ((bsrMatch = bsrRegex.exec(htmlContent)) !== null) {
+                    const key = bsrMatch[1];
+                    if (!body.querySelector(`[data-key="${key}"]`)) {
+                        utilityHtml += `
+                            <a href="beatsaver://${key}" class="util-btn" data-key="${key}">One-Click Install (${key})</a>
+                            <a href="https://beatsaver.com/maps/${key}" target="_blank" class="util-btn" data-key="${key}">View Map</a>
+                        `;
+                        hasUtilities = true;
+                    }
+                }
+
+                const ssRegex = /scoresaber\.com\/u\/(\d+)/gi;
+                let ssMatch;
+                while ((ssMatch = ssRegex.exec(htmlContent)) !== null) {
+                    const ssId = ssMatch[1];
+                    if (!body.querySelector(`[data-ssid="${ssId}"]`)) {
+                        utilityHtml += `
+                            <a href="https://scoresaber.com/u/${ssId}" target="_blank" class="util-btn scoresaber" data-ssid="${ssId}">View ScoreSaber Profile</a>
+                        `;
+                        hasUtilities = true;
+                    }
+                }
+
+                if (hasUtilities) {
+                    let utilsContainer = body.parentElement.querySelector('.game-utils');
+                    if (!utilsContainer) {
+                        utilsContainer = document.createElement('div');
+                        utilsContainer.className = 'game-utils';
+                        body.parentElement.appendChild(utilsContainer);
+                    }
+                    utilsContainer.innerHTML += utilityHtml;
+                }
+            });
+        }
+
+        function setupReadMoreFeatures() {
+            const bodies = document.querySelectorAll('.article-body-content');
+            bodies.forEach(body => {
+                if (body.scrollHeight > 280) {
+                    body.classList.add('truncated-view');
+                    
+                    const triggerBtn = document.createElement('button');
+                    triggerBtn.className = 'read-more-trigger';
+                    triggerBtn.innerText = 'Read Full Announcement';
+                    
+                    triggerBtn.onclick = () => {
+                        const articleTitle = body.parentElement.querySelector('h2').innerText;
+                        openPopup(articleTitle, body.innerHTML);
+                    };
+                    body.after(triggerBtn);
+                }
+            });
+        }
+
+        function calculateReadingTimes() {
+            const articles = document.querySelectorAll('article');
+            articles.forEach(article => {
+                const bodyContainer = article.querySelector('.article-body-content');
+                const outputElement = article.querySelector('.reading-time-container');
+                
+                if (bodyContainer && outputElement) {
+                    const text = bodyContainer.innerText || "";
+                    const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+                    const wordsPerMinute = 225;
+                    const calculatedMinutes = Math.ceil(wordCount / wordsPerMinute);
+                    
+                    outputElement.innerText = `• ${calculatedMinutes} min read`;
+                }
+            });
+        }
+
+        function openPopup(title, fullHtmlContent) {
+            document.getElementById('popupArticleTitle').innerText = title;
+            document.getElementById('popupScrollBody').innerHTML = fullHtmlContent;
+            
+            const popup = document.getElementById('readMorePopup');
+            popup.style.display = 'flex';
+            setTimeout(() => popup.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('readMorePopup');
+            popup.classList.remove('show');
+            setTimeout(() => popup.style.display = 'none', 200);
+            document.body.style.overflow = '';
+        }
+
+        async function fetchAnnouncements() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/TSFAlex/TSFAlexHub/refs/heads/main/Data.json');
+                if (!response.ok) throw new Error("JSON Fetch Failed");
+            } catch (err) {
+                console.warn("External timeline data not found. Loading static DOM elements only.");
+            }
+        }
+
+        window.onload = () => {
+            fetchAnnouncements();
+            processMapEmbeds();
+            setupReadMoreFeatures();
+            calculateReadingTimes();
+        };
+    </script>
 
 </body></html>
