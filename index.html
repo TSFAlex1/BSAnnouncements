@@ -12,8 +12,13 @@
             --card-bg: #111115;
             --text-main: #e2e8f0;
             --text-muted: #64748b;
-            --glow-blue: 0 0 15px rgba(0, 212, 255, 0.3);
-            --glow-red: 0 0 15px rgba(255, 0, 60, 0.3);
+            --glow-blue: 0 0 15px rgba(0, 212, 255, 0.35);
+            --glow-red: 0 0 15px rgba(255, 0, 60, 0.35);
+            --nav-bg: rgba(17, 17, 21, 0.85);
+            --border-color: #1f1f2e;
+            --input-bg: rgba(5, 5, 7, 0.6);
+            --shadow-color: rgba(0,0,0,0.5);
+            --invert-brightness: 1;
         }
 
         * { box-sizing: border-box; }
@@ -26,18 +31,38 @@
             padding: 0;
             line-height: 1.6;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* THEME-INTEGRATED CUSTOM SCROLLBARS */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            transition: background-color 0.3s;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 20px;
+            border: 2px solid var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bs-blue);
         }
 
         /* HEADER & BRANDING NAVIGATION */
         header.global-nav {
-            background: rgba(17, 17, 21, 0.8);
+            background: var(--nav-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid #1f1f2e;
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
             padding: 12px 16px;
+            transition: background 0.3s, border-color 0.3s;
         }
 
         .nav-container {
@@ -59,7 +84,8 @@
             width: 35px;
             height: 35px;
             object-fit: contain;
-            filter: drop-shadow(var(--glow-blue));
+            filter: drop-shadow(var(--glow-blue)) brightness(var(--invert-brightness));
+            transition: filter 0.3s;
         }
 
         .nav-title {
@@ -67,24 +93,34 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             font-weight: 800;
-            color: #ffffff;
+            color: var(--text-main);
             margin: 0;
             text-shadow: var(--glow-blue);
+            transition: text-shadow 0.3s;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            justify-content: flex-end;
+            max-width: 580px;
         }
 
         .search-wrapper {
             position: relative;
             flex: 1;
-            max-width: 300px;
+            max-width: 200px;
         }
 
         #announcementSearch {
             width: 100%;
-            background: rgba(5, 5, 7, 0.6);
-            border: 1px solid #2e2e3f;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 8px 15px;
-            color: #fff;
+            color: var(--text-main);
             font-size: 0.85rem;
             outline: none;
             transition: all 0.2s;
@@ -93,7 +129,106 @@
         #announcementSearch:focus {
             border-color: var(--bs-blue);
             box-shadow: var(--glow-blue);
-            background: #050507;
+        }
+
+        /* FULLY CUSTOM ANIMATED DROPDOWNS WITH NEON ROUNDED MENUS */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+            user-select: none;
+        }
+
+        .dropdown-trigger {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 32px 8px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .custom-dropdown:hover .dropdown-trigger {
+            border-color: var(--bs-blue);
+            box-shadow: var(--glow-blue);
+        }
+
+        .custom-dropdown.active .dropdown-trigger {
+            border-color: var(--bs-red);
+            box-shadow: var(--glow-red);
+        }
+
+        .dropdown-trigger::after {
+            content: '▼';
+            font-size: 0.6rem;
+            color: var(--bs-blue);
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.2s ease, color 0.2s;
+        }
+
+        .custom-dropdown.active .dropdown-trigger::after {
+            transform: translateY(-50%) rotate(180deg);
+            color: var(--bs-red);
+        }
+
+        /* The actual menu list overlay that drops down when clicked */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--bs-blue);
+            border-radius: 12px;
+            box-shadow: var(--glow-blue);
+            min-width: 160px;
+            max-height: 260px;
+            overflow-y: auto;
+            z-index: 200;
+            padding: 6px 0;
+            
+            /* Animation base states */
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* Active animation classes applied via JavaScript */
+        .dropdown-menu.entering {
+            display: block;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown-item {
+            padding: 8px 14px;
+            color: var(--text-main);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.15s, color 0.15s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(0, 212, 255, 0.12);
+            color: var(--bs-blue);
+        }
+
+        .dropdown-item.selected {
+            background-color: rgba(255, 0, 60, 0.1);
+            color: var(--bs-red);
+            font-weight: 700;
         }
 
         /* FILTERING CATEGORY BAR */
@@ -110,8 +245,8 @@
             display: none;
         }
         .filter-btn {
-            background: #111115;
-            border: 1px solid #1f1f2e;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             color: var(--text-muted);
             padding: 6px 14px;
             border-radius: 20px;
@@ -123,7 +258,7 @@
         }
         .filter-btn:hover {
             border-color: var(--bs-blue);
-            color: #fff;
+            color: var(--text-main);
         }
         .filter-btn.active {
             background: var(--bs-blue);
@@ -133,24 +268,21 @@
             box-shadow: var(--glow-blue);
         }
 
-        /* RESPONSIVE EMBED AND IFRAME HOLDER */
-        .external-embed-container {
+        /* RESPONSIVE EMBED FRAME */
+        .external-embed-frame {
             position: relative;
             width: 100%;
             margin-top: 16px;
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid #1f1f2e;
+            border: 1px solid var(--border-color);
             background: #050507;
             aspect-ratio: 16 / 9;
         }
 
-        .external-embed-container iframe, 
-        .external-embed-container embed, 
-        .external-embed-container object {
+        .external-embed-frame iframe {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             width: 100% !important;
             height: 100% !important;
             border: 0;
@@ -163,17 +295,8 @@
             margin-top: 15px;
             flex-wrap: wrap;
             padding-top: 10px;
-            border-top: 1px dashed #1f1f2e;
+            border-top: 1px dashed var(--border-color);
             width: 100%;
-        }
-
-        .game-utils iframe, 
-        .game-utils embed, 
-        .game-utils object {
-            max-width: 100% !important;
-            width: 100% !important;
-            border-radius: 6px;
-            border: 1px solid #1f1f2e;
         }
 
         .util-btn {
@@ -199,7 +322,7 @@
         .util-btn.scoresaber { border-color: #fca311; color: #fca311; }
         .util-btn.scoresaber:hover { background: #fca311; color: #000; box-shadow: 0 0 10px rgba(252, 163, 17, 0.4); }
 
-        /* TIMELINE STRUCTURE */
+        /* TIMELINE CARD STRUCTURE */
         main {
             max-width: 800px;
             margin: 12px auto 24px auto;
@@ -208,16 +331,16 @@
 
         article {
             background: var(--card-bg);
-            border: 1px solid #1f1f2e;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: border-color 0.2s;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transition: border-color 0.2s, background-color 0.3s;
         }
 
         article:hover {
-            border-color: #2e2e45;
+            border-color: var(--bs-blue);
         }
 
         .byline {
@@ -241,7 +364,7 @@
         }
 
         .author {
-            color: #ffffff;
+            color: var(--text-main);
             font-weight: 600;
         }
 
@@ -255,12 +378,28 @@
             text-transform: uppercase;
             font-weight: 700;
             letter-spacing: 0.5px;
+        }
+
+        /* RE-STYLED HYPERLINK SHARE OPTION */
+        .share-link {
+            color: var(--bs-blue);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-left: auto;
+            padding: 2px 6px;
+            transition: color 0.15s ease, text-shadow 0.15s;
+        }
+        .share-link:hover {
+            color: var(--text-main);
+            text-shadow: var(--glow-blue);
         }
 
         h2 {
             font-size: 1.35rem;
-            color: #ffffff;
+            color: var(--text-main);
             margin: 0 0 12px 0;
             font-weight: 700;
             letter-spacing: -0.3px;
@@ -272,7 +411,7 @@
             width: 100%;
             background: #050507;
             border-radius: 8px;
-            border: 1px solid #1f1f2e;
+            border: 1px solid var(--border-color);
             margin-bottom: 16px;
             overflow: hidden;
             display: flex;
@@ -289,36 +428,6 @@
             object-fit: contain;
         }
 
-        .view-all-btn {
-            position: absolute;
-            right: 12px;
-            bottom: 12px;
-            background: rgba(0, 0, 0, 0.85);
-            color: #ffffff;
-            border: 1px solid var(--bs-blue);
-            padding: 8px 14px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-radius: 6px;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            box-shadow: var(--glow-blue);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            z-index: 5;
-        }
-
-        .view-all-btn:hover {
-            background: var(--bs-blue);
-            color: #000000;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
-        }
-
         .hidden-album-pool {
             display: none;
         }
@@ -326,7 +435,7 @@
         /* BODY CONTENT MARKUP & TRUNCATION SETUP */
         .article-body-content {
             font-size: 0.95rem;
-            color: #cbd5e1;
+            color: var(--text-main);
             word-break: break-word;
             position: relative;
         }
@@ -345,7 +454,7 @@
             display: block;
             width: 100%;
             text-align: center;
-            background: linear-gradient(to top, rgba(17,17,21,1), rgba(17,17,21,0));
+            background: linear-gradient(to top, var(--card-bg) 40%, transparent 100%);
             color: var(--bs-blue);
             border: none;
             font-weight: 800;
@@ -358,8 +467,32 @@
             transition: color 0.2s;
         }
         .read-more-trigger:hover {
-            color: #fff;
+            color: var(--text-main);
             text-shadow: var(--glow-blue);
+        }
+
+        /* LOAD MORE SYSTEM */
+        .load-more-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .load-more-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .load-more-btn:hover {
+            border-color: var(--bs-blue);
+            box-shadow: var(--glow-blue);
         }
 
         /* LIGHTBOX MODAL CONTAINER SYSTEMS */
@@ -416,14 +549,6 @@
             z-index: 1010;
         }
 
-        .lightbox-btn:hover {
-            border-color: var(--bs-blue);
-            color: var(--bs-blue);
-            box-shadow: var(--glow-blue);
-        }
-
-        .lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
-        .lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
         .lightbox-close { top: 16px; right: 16px; border-color: var(--bs-red); color: var(--bs-red); font-size: 1.5rem; }
         .lightbox-close:hover { background: var(--bs-red); color: #fff; box-shadow: var(--glow-red); }
 
@@ -465,31 +590,25 @@
 
         .popup-window {
             background: var(--card-bg);
-            border: 1px solid #2e2e45;
+            border: 1px solid var(--border-color);
             width: 100%;
             max-width: 700px;
             max-height: 85vh;
             border-radius: 14px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7), var(--glow-blue);
+            box-shadow: 0 20px 50px var(--shadow-color), var(--glow-blue);
             position: relative;
             overflow: hidden;
         }
 
         .popup-header {
             padding: 18px 20px;
-            border-bottom: 1px solid #1f1f2e;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(22, 22, 30, 0.5);
-        }
-
-        .popup-header h2 {
-            margin: 0;
-            font-size: 1.2rem;
-            padding-right: 30px;
         }
 
         .popup-close-btn {
@@ -500,11 +619,8 @@
             cursor: pointer;
             line-height: 1;
             transition: color 0.2s;
-            padding: 0;
         }
-        .popup-close-btn:hover {
-            color: var(--bs-red);
-        }
+        .popup-close-btn:hover { color: var(--bs-red); }
 
         .popup-body-scroll {
             padding: 20px;
@@ -512,29 +628,21 @@
             flex: 1;
         }
 
-        .popup-body-scroll::-webkit-scrollbar { width: 8px; }
-        .popup-body-scroll::-webkit-scrollbar-track { background: #09090d; }
-        .popup-body-scroll::-webkit-scrollbar-thumb { background: #232333; border-radius: 4px; }
-        .popup-body-scroll::-webkit-scrollbar-thumb:hover { background: var(--bs-blue); }
+        /* RESPONSIVE DESIGN INTERFACE SETUP */
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .nav-controls { max-width: 100%; width: 100%; justify-content: space-between; flex-wrap: wrap; }
+            .search-wrapper { max-width: 100%; width: 100%; }
+        }
 
-        /* MOBILE PHONE RESPONSIVE OVERRIDES */
         @media (max-width: 600px) {
             body { padding-bottom: 20px; }
             main { margin: 12px auto 16px auto; }
             article { padding: 16px; border-radius: 8px; margin-bottom: 16px; }
             h2 { font-size: 1.2rem; }
             .announcement-img { max-height: 300px; }
-            
-            .lightbox-prev { left: 25%; top: auto; bottom: 60px; transform: none; }
-            .lightbox-next { right: 25%; top: auto; bottom: 60px; transform: none; }
-            .lightbox-viewer-img { max-height: 60vh; }
-
-            .nav-container { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .search-wrapper { max-width: 100%; width: 100%; }
             .category-filter-bar { margin-top: 12px; padding: 0 16px; }
-
             .popup-window { max-height: 92vh; }
-            .game-utils .util-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -546,8 +654,35 @@
                 <img src="BS-Announcements-Icon.png" class="nav-logo" alt="Logo">
                 <h1 class="nav-title">BS Announcements</h1>
             </div>
-            <div class="search-wrapper">
-                <input type="text" id="announcementSearch" placeholder="Search news, authors, or maps..." oninput="executeCombinedFilter()">
+            <div class="nav-controls">
+                <div class="search-wrapper">
+                    <input type="text" id="announcementSearch" placeholder="Search news, maps, authors..." oninput="executeCombinedFilter()">
+                </div>
+                
+                <div class="custom-dropdown" id="sortDropdownContainer">
+                    <div class="dropdown-trigger" id="sortDropdownTrigger" onclick="toggleDropdown('sortDropdownContainer')">Sort: Newest</div>
+                    <div class="dropdown-menu" id="sortDropdownMenu">
+                        <div class="dropdown-item selected" data-value="newest" onclick="selectDropdownOption('sortDropdownContainer', 'newest', 'Sort: Newest')">Newest</div>
+                        <div class="dropdown-item" data-value="oldest" onclick="selectDropdownOption('sortDropdownContainer', 'oldest', 'Sort: Oldest')">Oldest</div>
+                        <div class="dropdown-item" data-value="popular" onclick="selectDropdownOption('sortDropdownContainer', 'popular', 'Sort: Popular')">Popular</div>
+                    </div>
+                </div>
+
+                <div class="custom-dropdown" id="themeDropdownContainer">
+                    <div class="dropdown-trigger" id="themeDropdownTrigger" onclick="toggleDropdown('themeDropdownContainer')">Theme: Cyan</div>
+                    <div class="dropdown-menu" id="themeDropdownMenu">
+                        <div class="dropdown-item selected" data-value="cyan" onclick="selectDropdownOption('themeDropdownContainer', 'cyan', 'Theme: Cyan')">Neon Cyan</div>
+                        <div class="dropdown-item" data-value="purple" onclick="selectDropdownOption('themeDropdownContainer', 'purple', 'Theme: Purple')">Cyber Purple</div>
+                        <div class="dropdown-item" data-value="green" onclick="selectDropdownOption('themeDropdownContainer', 'green', 'Theme: Green')">Toxic Green</div>
+                        <div class="dropdown-item" data-value="pink" onclick="selectDropdownOption('themeDropdownContainer', 'pink', 'Theme: Pink')">Hot Pink</div>
+                        <div class="dropdown-item" data-value="orange" onclick="selectDropdownOption('themeDropdownContainer', 'orange', 'Theme: Orange')">Synth Orange</div>
+                        <div class="dropdown-item" data-value="ocean" onclick="selectDropdownOption('themeDropdownContainer', 'ocean', 'Theme: Ocean')">Ocean Blue</div>
+                        <div class="dropdown-item" data-value="light-cyber" onclick="selectDropdownOption('themeDropdownContainer', 'light-cyber', 'Theme: White Cyber')">Light Cyber (White)</div>
+                        <div class="dropdown-item" data-value="light-gold" onclick="selectDropdownOption('themeDropdownContainer', 'light-gold', 'Theme: White Gold')">Neon Gold (White)</div>
+                        <div class="dropdown-item" data-value="light-sakura" onclick="selectDropdownOption('themeDropdownContainer', 'light-sakura', 'Theme: Sakura')">Sakura Pink (White)</div>
+                        <div class="dropdown-item" data-value="light-mint" onclick="selectDropdownOption('themeDropdownContainer', 'light-mint', 'Theme: Mint')">Fresh Mint (White)</div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -560,12 +695,29 @@
     </div>
 
     <main id="announcementContainer">
-        <article data-category="community" data-status="published"><header class="byline"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/CATTAlex pic.jpg" class="pfp"><span>By <span class="author">TSFAlex</span> • May 28, 2026 <span class="reading-time-container"></span></span><span class="post-tag">community</span></header><h2>TSFAlex new video of his new OST 9 !</h2><div class="album-grid" onclick="initLightbox(this)"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/Gemini_Generated_Image_u93alxu93alxu93a-clean.png" class="announcement-img"><div class="hidden-album-pool"></div></div><div class="article-body-content">TSFAlex just released his new OST 9 video it goes hard.</div><div class="external-embed-frame"><iframe width="951" height="535" src="https://www.youtube.com/embed/YNbVSSXelj4" title="I made my OWN OST 9 and it goes CRAZY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe></div></article>
+        <article data-category="community" data-status="published" data-timestamp="1779926400000" data-views="3400">
+            <header class="byline">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/CATTAlex pic.jpg" class="pfp">
+                <span>By <span class="author">TSFAlex</span> • May 28, 2026 <span class="reading-time-container"></span></span>
+                <a href="#" class="share-link" onclick="shareArticle(event, this, 'TSFAlex new vide of his new OST 9 !')">Share</a>
+                <span class="post-tag">community</span>
+            </header>
+            <h2>TSFAlex new vide of his new OST 9 !</h2>
+            <div class="album-grid" onclick="initLightbox(this)">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/Gemini_Generated_Image_u93alxu93alxu93a-clean.png" class="announcement-img">
+                <div class="hidden-album-pool"></div>
+            </div>
+            <div class="article-body-content">TSFAlex just released his new OST 9 video it goes hard.</div>
+            <div class="external-embed-frame">
+                <iframe src="https://www.youtube.com/embed/YNbVSSXelj4" title="I made my OWN OST 9 and it goes CRAZY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+            </div>
+        </article>
 
-        <article data-category="updates" data-status="published">
+        <article data-category="updates" data-status="published" data-timestamp="1778889600000" data-views="9200">
             <header class="byline">
                 <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/image.png" class="pfp">
                 <span>By <span class="author">ScoreSaber</span> • May 16, 2026 <span class="reading-time-container"></span></span>
+                <a href="#" class="share-link" onclick="shareArticle(event, this, 'ScoreSaber 2 is coming...')">Share</a>
                 <span class="post-tag">updates</span>
             </header>
             <h2>ScoreSaber 2 is coming...</h2>
@@ -574,99 +726,18 @@
                 <div class="hidden-album-pool"></div>
             </div>
             <div class="article-body-content">
-                <p data-path-to-node="0">ScoreSaber 2 launches on Monday, May 25 at 4:00pm EST.</p>
-                <p data-path-to-node="1">ScoreSaber has existed since May 8, 2018. When I first made it, the goal was simple: just your friendly neighbourhood leaderboard with support for custom songs. Then PPv1 / PPv2 happened, the ranking system happened, replay systems 1 &amp; 2 happened.</p>
-                <p data-path-to-node="2">That growth felt amazing and it was super fun to iterate so fast back then, but the foundation underneath didn't exactly keep up.</p>
-                <p data-path-to-node="3">For years, new features were bolted onto systems that were never designed for them. Sometimes that worked... Sometimes it very much didn't. Eventually, almost every meaningful change had to fight the old backend, the old database, the old deployment setup or all 3 at once.</p>
-                <p data-path-to-node="4">So what is ScoreSaber 2?</p>
-                <p data-path-to-node="5">It's pretty much the update that gets us moving again (and a bunch of other cool stuff, I promise—just keep reading).</p>
-                <h2 data-path-to-node="6">The Re-code</h2>
-                <p data-path-to-node="7">The old database went all the way back to the first version of ScoreSaber. Every player, leaderboard and score was sitting on top of decisions I made when I was mostly just trying to get the thing working.</p>
-                <p data-path-to-node="8">It held on for dear life for a surprisingly long time, but development slowly turned into archaeology. It was time for that to stop.</p>
-                <p data-path-to-node="9">The database layer has moved to postgres with a completely redesigned data model. The backend has a new API, much stricter validation, proper background jobs, better monitoring and logging and doesn't make me want to cry everytime I go to touch it.</p>
-                <p data-path-to-node="10">The frontend has also been rebuilt with Next.js around the new API, moving away from the very, very beta version of svelte-kit we used on the old frontend which has kept us shackled for so long.</p>
-                <p data-path-to-node="11">For third party devs, the new public API is properly automatically generated and has OpenAPI support.</p>
-                <p data-path-to-node="12">Also—the old API isn't being switched off; ScoreSaber 2 has a compatibility layer for the existing website API, game API and legacy clients. A lot of tools, overlays, mods and scripts depend on ScoreSaber behaving a certain way and it'd be pretty rude to break all of them overnight. New things will live on the new API.</p>
-                <h2 data-path-to-node="13">Bus Factor</h2>
-                <p data-path-to-node="14">This is probably the least exciting section to read, but long term it might matter more than most of the shiny stuff.</p>
-                <p data-path-to-node="15">For a long time, because of how ScoreSaber was deployed, I never felt comfortable giving anyone else deep server access. The setup worked, but it relied on old infrastructure, manual process and too much knowledge sitting in my head.</p>
-                <p data-path-to-node="16">ScoreSaber 2 fixes a lot of that. Deployment is simpler, more automated and much easier for trusted developers to operate safely. Qwasyx will have full access to the new deployment platform for maintenance and custom jobs like reweights, and other members of the development team will have access where appropriate.</p>
-                <p data-path-to-node="17">When releasing something is painful, risky or requires one specific person to be awake and available, you release less. You avoid touching things.</p>
-                <p data-path-to-node="18">Once the dust settles, we also plan to open up the ScoreSaber development team to more people and open source a much larger chunk of ScoreSaber than we already have.</p>
-                <h2 data-path-to-node="19">Realms</h2>
-                <p data-path-to-node="20">Realms are one of the reasons the re-code was worth doing. The idea was originally inspired by ReBeat, a scoring system designed by Astrella.</p>
-                <p data-path-to-node="21">A realm is basically a separate scoring context inside ScoreSaber. It can have its own ranked maps, PP curve, modifier values, player stats, history and leaderboards.</p>
-                <p data-path-to-node="22">At launch, everyone will use the main realm, which is ScoreSaber as you know it today. Realms let us test new ranking systems and PP curves on real scores without blowing up the main realm. They can also be used for seasonal rankings, tournament rankings or something silly like a realm where base game positive modifiers are actually worth something.</p>
-                <h2 data-path-to-node="23">More Data</h2>
-                <p data-path-to-node="24">We upgraded our server in 2024 for the future version of ScoreSaber we'd been planning.</p>
-                <p data-path-to-node="25">The old ScoreSaber data model was pretty lossy. In many places, we only stored the latest state of something, not how it got there. In ScoreSaber 2, every submitted score is recorded and kept indefinitely. Your visible PB still behaves how you expect, but the underlying history is no longer thrown away.</p>
-                <p data-path-to-node="26">We're also logging a lot more state changes as structured data now. Player aliases, country changes, bans, role changes, leaderboard status changes, PP changes, ranking request activity and replay views all have real structure behind them.</p>
-                <p data-path-to-node="27">The next mod refresh will also let us start submitting fails and quits. Those won't affect ranking, but they're extremely useful for understanding play patterns, map difficulty, practice behaviour and common failure plots.</p>
-                <h2 data-path-to-node="28">Accounts</h2>
-                <p data-path-to-node="29">Meta account handling has been one of the longest-running annoyances in ScoreSaber. Historically, Steam was the clean path for website login and account management. If you bought Beat Saber through the Meta/Oculus store and played through the Meta Link app, you were stuck in a strange place.</p>
-                <p data-path-to-node="30">ScoreSaber 2 lets you sign in to the website with your Meta account and use the same niceties the rest of the community gets.</p>
-                <p data-path-to-node="31">Player aliases are also tracked now. Account settings now properly support connections for Steam, Meta, Patreon and Discord. Patreon linking is also now being treated as a proper account connection, which'll make supporter features feel a whole lot nicer.</p>
-                <h2 data-path-to-node="32">Replay Storage</h2>
-                <p data-path-to-node="33">Replays are one of the coolest parts of ScoreSaber, but they're also large enough that keeping every replay forever isn't realistic without limits.</p>
-                <p data-path-to-node="34">The new system is much clearer:</p>
-                <ul data-path-to-node="35">
-                    <li><p data-path-to-node="35,0,0">Every current PB replay upload is stored first.</p></li>
-                    <li><p data-path-to-node="35,1,0">Every current PB replay is guaranteed to remain available for at least 30 days.</p></li>
-                    <li><p data-path-to-node="35,2,0">Ranked leaderboards keep the top 1,000 current PB replays indefinitely.</p></li>
-                    <li><p data-path-to-node="35,3,0">Unranked leaderboards keep the top 15 current PB replays indefinitely.</p></li>
-                    <li><p data-path-to-node="35,4,0">Replaced PB replays are kept for 7 days before they can be cleaned up.</p></li>
-                </ul>
-                <p data-path-to-node="36">Supporters will also get extra replay slots:</p>
-                <ul data-path-to-node="37">
-                    <li><p data-path-to-node="37,0,0">$2/month supporters get 5,000 extra replay slots.</p></li>
-                    <li><p data-path-to-node="37,1,0">$5/month supporters get 20,000 extra replay slots.</p></li>
-                </ul>
-                <p data-path-to-node="38">There'll be a replay management page in settings showing how many slots you have, which replays are using them and which replays can be claimed or released.</p>
-                <h2 data-path-to-node="39">The New Website</h2>
-                <p data-path-to-node="40">It's faster, cleaner, mobile-friendly and server-rendered.</p>
-                <h3 data-path-to-node="41">Maps</h3>
-                <p data-path-to-node="42">The maps page is built around mapsets instead of a flat list of leaderboards. ScoreSaber now has a proper map model, so difficulties can be grouped under the mapset they belong to.</p>
-                <h3 data-path-to-node="43">Rankings</h3>
-                <p data-path-to-node="44">You can now jump to yourself, view players around you, view friends and include or exclude inactive players.</p>
-                <h3 data-path-to-node="45">Leaderboards</h3>
-                <p data-path-to-node="46">You can switch difficulties and game modes much more cleanly now. You can filter scores by friends, country and around me. If a map has an associated ranking request, the leaderboard page can show it directly in a tab.</p>
-                <h3 data-path-to-node="47">Scores</h3>
-                <p data-path-to-node="48">Scores now carry a lot more context. The device display has been rebuilt with proper headset and controller support. We have handling for 58 headset labels and 40 controller labels.</p>
-                <p data-path-to-node="49">ScoreSaber can now display per-hand accuracy, grid cut quality, miss and bad cut breakdowns, max 115 streak, estimated FC accuracy, accuracy over time and more.</p>
-                <h3 data-path-to-node="50">Replays</h3>
-                <p data-path-to-node="51">Replays now work in the browser, powered by ArcViewer. We've modified the viewer to be able to synthesize missing events from very old replay files, meaning you can open a score from forever ago and still watch it.</p>
-                <h2 data-path-to-node="52">Social</h2>
-                <p data-path-to-node="53">ScoreSaber now has a follower and following system. Some relationships are automatically sourced from platform friends, and you can follow people manually too.</p>
-                <p data-path-to-node="54">There's more social stuff coming after launch:</p>
-                <ul data-path-to-node="55">
-                    <li><p data-path-to-node="55,0,0">A home feed built around scores.</p></li>
-                    <li><p data-path-to-node="55,1,0">Likes and comments on scores.</p></li>
-                </ul>
-                <h2 data-path-to-node="56">Mods</h2>
-                <p data-path-to-node="57">There won't be a PC or Quest mod update on ScoreSaber 2 release day. The new backend is fully backwards compatible, so the current mods should keep working. The mod refresh is next on the list, with an aim for mid-June.</p>
-                <h2 data-path-to-node="58">Project Ludus</h2>
-                <p data-path-to-node="59">Ludus is a project I've been working on to allow for high-quality, synchronized spectating and tournament broadcasting. It allows one game instance to render multiple players' points of view at the same time with very little performance overhead.</p>
-                <p data-path-to-node="60">The goal is to provide an end-to-end tournament platform hosted by ScoreSaber. Players can participate through the normal mod without needing to stream or install extra third-party tournament mods. Broadcasters can capture the whole match easily, and viewers can potentially open a live POV of their favourite player in-browser or in-game.</p>
-                <h2 data-path-to-node="61">PPv3</h2>
-                <p data-path-to-node="62">Development never fully stopped, but it slowed down. Once ScoreSaber 2 is out, we can give it real attention again. PPv3 can be tested in a separate realm, with real scores, real rankings and real player data all without forcing the main realm to change before the community has had a chance to see how it behaves.</p>
-                <h2 data-path-to-node="63">Timeline</h2>
-                <ul data-path-to-node="64">
-                    <li><p data-path-to-node="64,0,0"><b data-path-to-node="64,0,0" data-index-in-node="0">ScoreSaber 2:</b> May 25th @ 4:00pm EST</p></li>
-                    <li><p data-path-to-node="64,1,0"><b data-path-to-node="64,1,0" data-index-in-node="0">PC &amp; Quest mod refresh:</b> Mid-June</p></li>
-                    <li><p data-path-to-node="64,2,0"><b data-path-to-node="64,2,0" data-index-in-node="0">Social features:</b> Mid-July</p></li>
-                    <li><p data-path-to-node="64,3,0"><b data-path-to-node="64,3,0" data-index-in-node="0">Tournament client:</b> Sometime post-BSWC</p></li>
-                </ul>
-                <h2 data-path-to-node="65">Wrapping Up</h2>
-                <p data-path-to-node="66">This update has taken far longer than I ever wanted. Thank you for being patient anyway. Thank you to everyone who kept playing, mapping, ranking, supporting the Patreon, helping in Discord and caring enough to still be here.</p>
-                <p data-path-to-node="67">We're not done, ScoreSaber has only just been defrosted. Development can be ongoing and active again instead of happening in painful bursts. See ya on the 25th.</p>
+                <p>ScoreSaber 2 launches on Monday, May 25 at 4:00pm EST.</p>
+                <p>ScoreSaber has existed since May 8, 2018. When I first made it, the goal was simple: just your friendly neighbourhood leaderboard with support for custom songs.</p>
+                <p>The database layer has moved to postgres with a completely redesigned data model. The backend has a new API, much stricter validation, proper background jobs, better monitoring and logging and doesn't make me want to cry everytime I go to touch it.</p>
             </div>
         </article>
 
-        <article data-category="updates">
+        <article data-category="updates" data-status="published" data-timestamp="1778803200000" data-views="5100">
             <header class="byline">
                 <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/refs/heads/main/channels4_profile.jpg" class="pfp">
                 <span>By <span class="author">Beat Saber Official</span> • May 15, 2026 <span class="reading-time-container"></span></span>
-                <span class="post-tag">Updates</span>
+                <a href="#" class="share-link" onclick="shareArticle(event, this, 'Beat Saber Teased 3 NEW songs')">Share</a>
+                <span class="post-tag">updates</span>
             </header>
             <h2>Beat Saber Teased 3 NEW songs for their 8th anniversary</h2>
             <div class="album-grid" onclick="initLightbox(this)">
@@ -674,47 +745,25 @@
                 <div class="hidden-album-pool"></div>
             </div>
             <div class="article-body-content">
-                <p>This teaser is incredibly exciting for the <i>Beat Saber</i> community, especially for those who love high-energy, complex electronic music. This release lands on <b>May 28th</b> as part of Beat Games' <b>8th Anniversary celebrations</b>, where they traditionally drop highly anticipated free tracks to thank the community.</p>
-                <p>Here is an expanded breakdown and clarification of what you can expect from these three powerhouse artist pairings:</p>
+                <p>This teaser is incredibly exciting for the <i>Beat Saber</i> community, especially for those who love high-energy, complex electronic music. This release lands on <b>May 28th</b> as part of Beat Games' <b>8th Anniversary celebrations</b>.</p>
                 <h3>1. Skybreak &amp; Daeya</h3>
-                <ul>
-                    <li><p><b>The Vibe:</b> Melodic Dubstep / Color Bass / Cinematic EDM.</p></li>
-                    <li><p><b>What to Expect:</b> Skybreak is famous for his incredibly bright, lush, and intricately sound-designed "color bass". He recently made waves in the game with "Accelerate" (with Teminite) on the Monstercat Mixtape 2. Partnering with Daeya—who is known for her ethereal, soaring, and emotional vocals—means we are almost certainly getting a massive, beautifully melodic bass anthem.</p></li>
-                    <li><p><b>Gameplay Prediction:</b> Expect sweeping <b>Arcs</b> that follow emotional vocal leads, contrasted against fast, bursts of rhythmic streams during the drop.</p></li>
-                </ul>
+                <p><b>The Vibe:</b> Melodic Dubstep / Color Bass / Cinematic EDM.</p>
                 <h3>2. Boom Kitty x MDK</h3>
-                <ul>
-                    <li><p><b>The Vibe:</b> Glitch Hop / Electro House / Chiptune Heavy Bass.</p></li>
-                    <li><p><b>What to Expect:</b> This is a dream collaboration for rhythm game fans. Both artists are legends in the <i>Geometry Dash</i> and broader rhythm gaming ecosystem.</p>
-                        <ul>
-                            <li><p><b>Boom Kitty</b> brings heavy, bouncy, and aggressive bass lines (think "Burning Sands" or "Peeled").</p></li>
-                            <li><p><b>MDK</b> (Morgan David King) is famous for finger-breaking, hyper-energetic, video-game-inspired chiptune electro (like "Fingerbang").</p></li>
-                        </ul>
-                    </li>
-                    <li><p><b>Gameplay Prediction:</b> This track will likely be an absolute chaotic masterpiece. Expect highly rhythmic, syncopated mapping, tricky crossovers, and a relentless BPM that will put your endurance and wrist speed to the test.</p></li>
-                </ul>
-                <h3>3. Zakka G</h3>
-                <ul>
-                    <li><p><b>The Vibe:</b> Hardcore / Speedcore / J-Core / Artcore.</p></li>
-                    <li><p><b>What to Expect:</b> Zakka G is a staple producer in the arcade rhythm game scene (featured heavily in games like <i>Arcaea</i>, <i>Chunithm</i>, and <i>Muse Dash</i>). They specialize in high-BPM, breakcore-infused electronic music that features beautiful, intricate piano melodies layered over devastatingly fast drum beats.</p></li>
-                    <li><p><b>Gameplay Prediction:</b> If you are a fan of the <i>Camellia</i> tracks in Beat Saber, this is likely where your true Expert+ challenge will hide. Zakka G’s signature speed means this map will heavily favor complex <b>Chains</b>, rapid stream patterns, and frantic note densities.</p></li>
-                </ul>
-                <blockquote><p>💡 <b>Important Platform Reminder:</b> Keep in mind that Beat Games officially ended content updates and support for the PlayStation 4 and PlayStation 5 (PSVR/PSVR2) versions. This means the May 28th anniversary drop will be exclusive to <b>Meta Quest and PCVR (SteamVR)</b> players.</p></blockquote>
-                <p>Get your sabers charged—between the rhythmic intensity of Boom Kitty x MDK and the sheer speed of Zakka G, May 28th is going to be a workout! Which of these three tracks are you most excited to clear first?</p>
+                <p><b>The Vibe:</b> Glitch Hop / Electro House / Chiptune Heavy Bass.</p>
             </div>
         </article>
     </main>
 
+    <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+        <button class="load-more-btn" onclick="increasePostsLimit()">Load More</button>
+    </div>
+
     <div id="globalLightbox" class="lightbox-modal" onclick="closeLightbox()">
-        <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();" aria-label="Close UI">×</button>
-        <button id="lightboxPrev" class="lightbox-btn lightbox-prev" onclick="navigateLightbox(-1); event.stopPropagation();" aria-label="Previous Frame">❮</button>
-        
+        <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();">×</button>
         <div class="lightbox-content-wrapper" onclick="event.stopPropagation();">
             <img id="lightboxTargetImg" class="lightbox-viewer-img" src="" alt="Active View">
             <div id="lightboxCounter" class="lightbox-counter">1 / 1</div>
         </div>
-
-        <button id="lightboxNext" class="lightbox-btn lightbox-next" onclick="navigateLightbox(1); event.stopPropagation();" aria-label="Next Frame">❯</button>
     </div>
 
     <div id="readMorePopup" class="article-popup-modal" onclick="closePopup()">
@@ -728,51 +777,244 @@
     </div>
 
     <script>
+        let currentMaxVisiblePosts = 2; 
         let activeImageArray = [];
-        let activeImageIndex = 0;
         let currentSelectedCategory = 'all';
+        let currentSortValue = 'newest';
+
+        /* INTERACTIVE DROPDOWN ANIMATION TIMING ENGINE */
+        function toggleDropdown(containerId) {
+            const container = document.getElementById(containerId);
+            const menu = container.querySelector('.dropdown-menu');
+            const isActive = container.classList.contains('active');
+
+            // Close all options menu layers except target
+            document.querySelectorAll('.custom-dropdown').forEach(el => {
+                if(el.id !== containerId) closeDropdownDropdown(el.id);
+            });
+
+            if (isActive) {
+                closeDropdownDropdown(containerId);
+            } else {
+                container.classList.add('active');
+                menu.classList.add('entering');
+                // Allow display switch to compute before changing opacity/transform transforms
+                setTimeout(() => {
+                    menu.classList.add('show');
+                }, 20);
+            }
+        }
+
+        function closeDropdownDropdown(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const menu = container.querySelector('.dropdown-menu');
+            container.classList.remove('active');
+            menu.classList.remove('show');
+            // Wait for transition timelines to complete before stripping display block
+            setTimeout(() => {
+                if(!container.classList.contains('active')) {
+                    menu.classList.remove('entering');
+                }
+            }, 200);
+        }
+
+        function selectDropdownOption(containerId, value, labelText) {
+            const container = document.getElementById(containerId);
+            const trigger = container.querySelector('.dropdown-trigger');
+            
+            container.querySelectorAll('.dropdown-item').forEach(item => {
+                item.classList.remove('selected');
+                if(item.getAttribute('data-value') === value) item.classList.add('selected');
+            });
+
+            trigger.innerText = labelText;
+            closeDropdownDropdown(containerId);
+
+            if (containerId === 'sortDropdownContainer') {
+                currentSortValue = value;
+                executeCombinedFilter();
+            } else if (containerId === 'themeDropdownContainer') {
+                switchTheme(value);
+            }
+        }
+
+        // Close dropdown layers if click maps anywhere outside the interactive container frame
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.custom-dropdown')) {
+                document.querySelectorAll('.custom-dropdown').forEach(el => {
+                    closeDropdownDropdown(el.id);
+                });
+            }
+        });
+
+        // MASSIVE SUITE OF EXTENDED NEON VISUAL THEMES
+        function switchTheme(theme) {
+            const root = document.documentElement;
+            if (theme === 'cyan') {
+                root.style.setProperty('--bs-blue', '#00d4ff');
+                root.style.setProperty('--bs-red', '#ff003c');
+                root.style.setProperty('--bg-dark', '#070709');
+                root.style.setProperty('--card-bg', '#111115');
+                root.style.setProperty('--text-main', '#e2e8f0');
+                root.style.setProperty('--text-muted', '#64748b');
+                root.style.setProperty('--glow-blue', '0 0 15px rgba(0, 212, 255, 0.35)');
+                root.style.setProperty('--glow-red', '0 0 15px rgba(255, 0, 60, 0.35)');
+                root.style.setProperty('--nav-bg', 'rgba(17, 17, 21, 0.85)');
+                root.style.setProperty('--border-color', '#1f1f2e');
+                root.style.setProperty('--input-bg', 'rgba(5, 5, 7, 0.6)');
+                root.style.setProperty('--shadow-color', 'rgba(0,0,0,0.5)');
+                root.style.setProperty('--invert-brightness', '1');
+            } else if (theme === 'purple') {
+                root.style.setProperty('--bs-blue', '#bd00ff');
+                root.style.setProperty('--bs-red', '#ff00b8');
+                root.style.setProperty('--bg-dark', '#0a0512');
+                root.style.setProperty('--card-bg', '#140d24');
+                root.style.setProperty('--text-main', '#e9e3f5');
+                root.style.setProperty('--text-muted', '#7e6e9c');
+                root.style.setProperty('--glow-blue', '0 0 15px rgba(189, 0, 255, 0.4)');
+                root.style.setProperty('--glow-red', '0 0 15px rgba(255, 0, 184, 0.4)');
+                root.style.setProperty('--nav-bg', 'rgba(20, 13, 36, 0.85)');
+                root.style.setProperty('--border-color', '#321f54');
+                root.style.setProperty('--input-bg', 'rgba(10, 5, 18, 0.6)');
+                root.style.setProperty('--shadow-color', 'rgba(0,0,0,0.6)');
+                root.style.setProperty('--invert-brightness', '1');
+            } else if (theme === 'green') {
+                root.style.setProperty('--bs-blue', '#00ff66');
+                root.style.setProperty('--bs-red', '#ff9900');
+                root.style.setProperty('--bg-dark', '#040905');
+                root.style.setProperty('--card-bg', '#0d1910');
+                root.style.setProperty('--text-main', '#e1f5e7');
+                root.style.setProperty('--text-muted', '#688c72');
+                root.style.setProperty('--glow-blue', '0 0 15px rgba(0, 255, 102, 0.4)');
+                root.style.setProperty('--glow-red', '0 0 15px rgba(255, 153, 0, 0.4)');
+                root.style.setProperty('--nav-bg', 'rgba(13, 25, 16, 0.85)');
+                root.style.setProperty('--border-color', '#1b3823');
+                root.style.setProperty('--input-bg', 'rgba(4, 9, 5, 0.6)');
+                root.style.setProperty('--shadow-color', 'rgba(0,0,0,0.7)');
+                root.style.setProperty('--invert-brightness', '1');
+            } else if (theme === 'pink') {
+                root.style.setProperty('--bs-blue', '#ff007f');
+                root.style.setProperty('--bs-red', '#00f0ff');
+                root.style.setProperty('--bg-dark', '#0f020a');
+                root.style.setProperty('--card-bg', '#1c0514');
+                root.style.setProperty('--text-main', '#fce7f3');
+                root.style.setProperty('--text-muted', '#a27b93');
+                root.style.setProperty('--glow-blue', '0 0 15px rgba(255, 0, 127, 0.45)');
+                root.style.setProperty('--glow-red', '0 0 15px rgba(0, 240, 255, 0.4)');
+                root.style.setProperty('--nav-bg', 'rgba(28, 5, 20, 0.85)');
+                root.style.setProperty('--border-color', '#420f31');
+                root.style.setProperty('--input-bg', 'rgba(15, 2, 10, 0.6)');
+                root.style.setProperty('--shadow-color', 'rgba(0,0,0,0.6)');
+                root.style.setProperty('--invert-brightness', '1');
+            } else if (theme === 'orange') {
+                root.style.setProperty('--bs-blue', '#ff6c00');
+                root.style.setProperty('--bs-red', '#00ffcc');
+                root.style.setProperty('--bg-dark', '#0d0602');
+                root.style.setProperty('--card-bg', '#1b0e05');
+                root.style.setProperty('--text-main', '#ffedd5');
+                root.style.setProperty('--text-muted', '#a88168');
+                root.style.setProperty('--glow-blue', '0 0 15px rgba(255, 108, 0, 0.45)');
+                root.style.setProperty('--glow-red', '0 0 15px rgba(0, 255, 204, 0.4)');
+                root.style.setProperty('--nav-bg', 'rgba(27, 14, 5, 0.85)');
+                root.style.setProperty('--border-color', '#44220b');
+                root.style.setProperty('--input-bg', 'rgba(13, 6, 2, 0.6)');
+                root.style.setProperty('--shadow-color', 'rgba(0,0,0,0.6)');
+                root.style.setProperty('--invert-brightness', '1');
+            } else if (theme === 'ocean') {
+                root.style.setProperty('--bs-blue', '#0055ff');
+                root.style.setProperty('--bs-red', '#00ffaa');
+                root.style.setProperty('--bg-dark', '#010610');
+                root.style.setProperty('--card-bg', '#051226');
+                root.style.setProperty('--text-main', '#e0f2fe');
+                root.style.setProperty('--text-muted', '#5a799c');
+                root.style.setProperty('--glow-blue', '0 0 15px rgba(0, 85, 255, 0.5)');
+                root.style.setProperty('--glow-red', '0 0 15px rgba(0, 255, 170, 0.4)');
+                root.style.setProperty('--nav-bg', 'rgba(5, 18, 38, 0.85)');
+                root.style.setProperty('--border-color', '#0f2d59');
+                root.style.setProperty('--input-bg', 'rgba(1, 6, 16, 0.6)');
+                root.style.setProperty('--shadow-color', 'rgba(0,0,0,0.5)');
+                root.style.setProperty('--invert-brightness', '1');
+            } else if (theme === 'light-cyber') {
+                root.style.setProperty('--bs-blue', '#0077ff');
+                root.style.setProperty('--bs-red', '#ff0055');
+                root.style.setProperty('--bg-dark', '#f4f6f9');
+                root.style.setProperty('--card-bg', '#ffffff');
+                root.style.setProperty('--text-main', '#1e293b');
+                root.style.setProperty('--text-muted', '#64748b');
+                root.style.setProperty('--glow-blue', '0 4px 12px rgba(0, 119, 255, 0.2)');
+                root.style.setProperty('--glow-red', '0 4px 12px rgba(255, 0, 85, 0.2)');
+                root.style.setProperty('--nav-bg', 'rgba(255, 255, 255, 0.85)');
+                root.style.setProperty('--border-color', '#e2e8f0');
+                root.style.setProperty('--input-bg', '#edf2f7');
+                root.style.setProperty('--shadow-color', 'rgba(148, 163, 184, 0.12)');
+                root.style.setProperty('--invert-brightness', '0.1');
+            } else if (theme === 'light-gold') {
+                root.style.setProperty('--bs-blue', '#d97706');
+                root.style.setProperty('--bs-red', '#4f46e5');
+                root.style.setProperty('--bg-dark', '#fafafa');
+                root.style.setProperty('--card-bg', '#ffffff');
+                root.style.setProperty('--text-main', '#171717');
+                root.style.setProperty('--text-muted', '#737373');
+                root.style.setProperty('--glow-blue', '0 4px 12px rgba(217, 119, 6, 0.25)');
+                root.style.setProperty('--glow-red', '0 4px 12px rgba(79, 70, 229, 0.2)');
+                root.style.setProperty('--nav-bg', 'rgba(250, 250, 250, 0.85)');
+                root.style.setProperty('--border-color', '#e5e5e5');
+                root.style.setProperty('--input-bg', '#f5f5f5');
+                root.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.05)');
+                root.style.setProperty('--invert-brightness', '0.2');
+            } else if (theme === 'light-sakura') {
+                root.style.setProperty('--bs-blue', '#db2777');
+                root.style.setProperty('--bs-red', '#0d9488');
+                root.style.setProperty('--bg-dark', '#fff5f7');
+                root.style.setProperty('--card-bg', '#ffffff');
+                root.style.setProperty('--text-main', '#312e81');
+                root.style.setProperty('--text-muted', '#9d9da6');
+                root.style.setProperty('--glow-blue', '0 4px 12px rgba(219, 39, 119, 0.2)');
+                root.style.setProperty('--glow-red', '0 4px 12px rgba(13, 148, 136, 0.15)');
+                root.style.setProperty('--nav-bg', 'rgba(255, 245, 247, 0.85)');
+                root.style.setProperty('--border-color', '#fbcfe8');
+                root.style.setProperty('--input-bg', '#ffe4e6');
+                root.style.setProperty('--shadow-color', 'rgba(219, 39, 119, 0.04)');
+                root.style.setProperty('--invert-brightness', '0.15');
+            } else if (theme === 'light-mint') {
+                root.style.setProperty('--bs-blue', '#059669');
+                root.style.setProperty('--bs-red', '#dc2626');
+                root.style.setProperty('--bg-dark', '#f0fdf4');
+                root.style.setProperty('--card-bg', '#ffffff');
+                root.style.setProperty('--text-main', '#0f172a');
+                root.style.setProperty('--text-muted', '#64748b');
+                root.style.setProperty('--glow-blue', '0 4px 12px rgba(5, 150, 105, 0.2)');
+                root.style.setProperty('--glow-red', '0 4px 12px rgba(220, 38, 38, 0.15)');
+                root.style.setProperty('--nav-bg', 'rgba(240, 253, 244, 0.85)');
+                root.style.setProperty('--border-color', '#bbf7d0');
+                root.style.setProperty('--input-bg', '#dcfce7');
+                root.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.03)');
+                root.style.setProperty('--invert-brightness', '0.12');
+            }
+        }
+
+        // HYPERLINK-DRIVEN CLIPBOARD COPIER
+        function shareArticle(event, anchor, title) {
+            event.preventDefault();
+            const cleanUrl = window.location.href.split('#')[0];
+            const textToCopy = `**[Announcement] ${title}**\nRead here: ${cleanUrl}`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const prevLabel = anchor.innerText;
+                anchor.innerText = "Copied!";
+                setTimeout(() => anchor.innerText = prevLabel, 1500);
+            });
+        }
 
         function initLightbox(gridElement) {
             activeImageArray = [];
-            activeImageIndex = 0;
-
             const primaryImg = gridElement.querySelector('.announcement-img');
             if (primaryImg) activeImageArray.push(primaryImg.src);
-
-            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');
-            structuralPool.forEach(img => activeImageArray.push(img.src));
-
-            if (activeImageArray.length === 0) return;
-
-            const prevBtn = document.getElementById('lightboxPrev');
-            const nextBtn = document.getElementById('lightboxNext');
-
-            if (activeImageArray.length <= 1) {
-                prevBtn.style.display = 'none';
-                nextBtn.style.display = 'none';
-            } else {
-                prevBtn.style.display = 'flex';
-                nextBtn.style.display = 'flex';
-            }
-
-            renderLightboxFrame();
-            
+            document.getElementById('lightboxTargetImg').src = activeImageArray[0];
             const modal = document.getElementById('globalLightbox');
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('show'), 10);
             document.body.style.overflow = 'hidden';
-        }
-
-        function renderLightboxFrame() {
-            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];
-            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;
-        }
-
-        function navigateLightbox(direction) {
-            activeImageIndex += direction;
-            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;
-            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;
-            renderLightboxFrame();
         }
 
         function closeLightbox() {
@@ -782,22 +1024,6 @@
             document.body.style.overflow = '';
         }
 
-        document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('globalLightbox');
-            const popup = document.getElementById('readMorePopup');
-            
-            if (modal.classList.contains('show')) {
-                if (e.key === 'Escape') closeLightbox();
-                if (activeImageArray.length > 1) {
-                    if (e.key === 'ArrowRight') navigateLightbox(1);
-                    if (e.key === 'ArrowLeft') navigateLightbox(-1);
-                }
-            }
-            if (popup.classList.contains('show')) {
-                if (e.key === 'Escape') closePopup();
-            }
-        });
-
         function filterCategory(categoryValue, element) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
@@ -805,67 +1031,51 @@
             executeCombinedFilter();
         }
 
+        // UNIFIED ENGINE FOR FILTERING, SORTING AND ENFORCING PAGINATION LIMITS
         function executeCombinedFilter() {
             const searchQuery = document.getElementById('announcementSearch').value.toLowerCase();
-            const articles = document.querySelectorAll('article');
+            const container = document.getElementById('announcementContainer');
+            const articles = Array.from(container.querySelectorAll('article'));
 
+            // Core Sorting Execution
+            articles.sort((a, b) => {
+                const timeA = parseInt(a.getAttribute('data-timestamp')) || 0;
+                const timeB = parseInt(b.getAttribute('data-timestamp')) || 0;
+                const viewsA = parseInt(a.getAttribute('data-views')) || 0;
+                const viewsB = parseInt(b.getAttribute('data-views')) || 0;
+
+                if (currentSortValue === 'newest') return timeB - timeA;
+                if (currentSortValue === 'oldest') return timeA - timeB;
+                if (currentSortValue === 'popular') return viewsB - viewsA;
+                return 0;
+            });
+
+            // Append sorted arrangement mapping safely
+            articles.forEach(article => container.appendChild(article));
+
+            // Viewport display visibility matching loops
+            let viewableMatches = 0;
             articles.forEach(article => {
-                const articleText = article.innerText.toLowerCase();
-                const articleCategory = article.getAttribute('data-category') || 'all';
-                
-                const matchesSearch = articleText.includes(searchQuery);
-                const matchesCategory = (currentSelectedCategory === 'all' || articleCategory === currentSelectedCategory);
+                const textPool = article.innerText.toLowerCase();
+                const category = article.getAttribute('data-category') || 'all';
+                const matchesSearch = textPool.includes(searchQuery);
+                const matchesCategory = (currentSelectedCategory === 'all' || category === currentSelectedCategory);
 
                 if (matchesSearch && matchesCategory) {
-                    article.style.display = 'block';
+                    viewableMatches++;
+                    article.style.display = (viewableMatches <= currentMaxVisiblePosts) ? 'block' : 'none';
                 } else {
                     article.style.display = 'none';
                 }
             });
+
+            const loadMoreWrapper = document.getElementById('loadMoreContainer');
+            loadMoreWrapper.style.display = (viewableMatches > currentMaxVisiblePosts) ? 'flex' : 'none';
         }
 
-        function processMapEmbeds() {
-            const bodies = document.querySelectorAll('.article-body-content');
-            bodies.forEach(body => {
-                const htmlContent = body.innerHTML;
-                let utilityHtml = '';
-                let hasUtilities = false;
-
-                const bsrRegex = /!bsr\s+([a-fA-F0-9]+)/gi;
-                let bsrMatch;
-                while ((bsrMatch = bsrRegex.exec(htmlContent)) !== null) {
-                    const key = bsrMatch[1];
-                    if (!body.querySelector(`[data-key="${key}"]`)) {
-                        utilityHtml += `
-                            <a href="beatsaver://${key}" class="util-btn" data-key="${key}">One-Click Install (${key})</a>
-                            <a href="https://beatsaver.com/maps/${key}" target="_blank" class="util-btn" data-key="${key}">View Map</a>
-                        `;
-                        hasUtilities = true;
-                    }
-                }
-
-                const ssRegex = /scoresaber\.com\/u\/(\d+)/gi;
-                let ssMatch;
-                while ((ssMatch = ssRegex.exec(htmlContent)) !== null) {
-                    const ssId = ssMatch[1];
-                    if (!body.querySelector(`[data-ssid="${ssId}"]`)) {
-                        utilityHtml += `
-                            <a href="https://scoresaber.com/u/${ssId}" target="_blank" class="util-btn scoresaber" data-ssid="${ssId}">View ScoreSaber Profile</a>
-                        `;
-                        hasUtilities = true;
-                    }
-                }
-
-                if (hasUtilities) {
-                    let utilsContainer = body.parentElement.querySelector('.game-utils');
-                    if (!utilsContainer) {
-                        utilsContainer = document.createElement('div');
-                        utilsContainer.className = 'game-utils';
-                        body.parentElement.appendChild(utilsContainer);
-                    }
-                    utilsContainer.innerHTML += utilityHtml;
-                }
-            });
+        function increasePostsLimit() {
+            currentMaxVisiblePosts += 2;
+            executeCombinedFilter();
         }
 
         function setupReadMoreFeatures() {
@@ -873,14 +1083,12 @@
             bodies.forEach(body => {
                 if (body.scrollHeight > 280) {
                     body.classList.add('truncated-view');
-                    
                     const triggerBtn = document.createElement('button');
                     triggerBtn.className = 'read-more-trigger';
                     triggerBtn.innerText = 'Read Full Announcement';
-                    
                     triggerBtn.onclick = () => {
-                        const articleTitle = body.parentElement.querySelector('h2').innerText;
-                        openPopup(articleTitle, body.innerHTML);
+                        const titleText = body.parentElement.querySelector('h2').innerText;
+                        openPopup(titleText, body.innerHTML);
                     };
                     body.after(triggerBtn);
                 }
@@ -888,18 +1096,12 @@
         }
 
         function calculateReadingTimes() {
-            const articles = document.querySelectorAll('article');
-            articles.forEach(article => {
-                const bodyContainer = article.querySelector('.article-body-content');
-                const outputElement = article.querySelector('.reading-time-container');
-                
-                if (bodyContainer && outputElement) {
-                    const text = bodyContainer.innerText || "";
-                    const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
-                    const wordsPerMinute = 225;
-                    const calculatedMinutes = Math.ceil(wordCount / wordsPerMinute);
-                    
-                    outputElement.innerText = `• ${calculatedMinutes} min read`;
+            document.querySelectorAll('article').forEach(article => {
+                const textPool = article.querySelector('.article-body-content');
+                const outSpan = article.querySelector('.reading-time-container');
+                if (textPool && outSpan) {
+                    const words = textPool.innerText.trim().split(/\s+/).filter(w => w.length > 0).length;
+                    outSpan.innerText = `• ${Math.ceil(words / 225)} min read`;
                 }
             });
         }
@@ -907,7 +1109,6 @@
         function openPopup(title, fullHtmlContent) {
             document.getElementById('popupArticleTitle').innerText = title;
             document.getElementById('popupScrollBody').innerHTML = fullHtmlContent;
-            
             const popup = document.getElementById('readMorePopup');
             popup.style.display = 'flex';
             setTimeout(() => popup.classList.add('show'), 10);
@@ -921,22 +1122,11 @@
             document.body.style.overflow = '';
         }
 
-        async function fetchAnnouncements() {
-            try {
-                const response = await fetch('https://raw.githubusercontent.com/TSFAlex/TSFAlexHub/refs/heads/main/Data.json');
-                if (!response.ok) throw new Error("JSON Fetch Failed");
-            } catch (err) {
-                console.warn("External timeline data not found. Loading static DOM elements only.");
-            }
-        }
-
         window.onload = () => {
-            fetchAnnouncements();
-            processMapEmbeds();
             setupReadMoreFeatures();
             calculateReadingTimes();
+            executeCombinedFilter();
         };
     </script>
-
-
-</body></html>
+</body>
+</html>
