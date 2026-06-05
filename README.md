@@ -1,4 +1,5 @@
-# Project Documentation & Terms of Use
+# [View Recent Update Notes](UPDNOTES.md)
+## Project Documentation & Terms of Use
 
 ## Copyright & Intellectual Property Notice
 
