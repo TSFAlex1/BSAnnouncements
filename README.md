@@ -24,3 +24,5 @@ Any unauthorized utilization, replication, or distribution of this software cons
 ## Contact & Authorization Requests
 
 To request formal distribution authorization or media clearances, submit inquiries directly via official communication channels.
+**IGNORE:**
+[View Recent Update Notes](UPDNOTES.md)
