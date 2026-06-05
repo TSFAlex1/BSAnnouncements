@@ -1,16 +1,13 @@
-# NEW Upd v1.1.1
+# NEW Upd v1.1.2
+## Update notes:
 
-Update notes:
+**Restored Announcement Content**
+All announcement text has been fully restored to its original, comprehensive length. The "Read More" functionality is now fully operational, ensuring every piece of information is displayed correctly when triggered.
 
-### Added Announcement Sorting
-Organise the feed to find exactly what is needed. Sort announcements by Newest, Oldest, or Popularity (Views) using the new interactive dropdown menu layout.
+**Improved "Read More" Integration**
+Refined the popup system to ensure all media, including embedded YouTube videos, displays perfectly within the expanded view.
 
-### Added Themes
-Personalise the dashboard with an expanded selection of custom themes. Toggle smoothly between vibrant dark accents or clean white variations like Light Cyber and Neon Gold.
+**Enhanced Navigation & UI**
+Finalized polish on the interactive dropdowns and theme system, ensuring a seamless experience across all neon and light-themed dashboards.
 
-### Added Announcement Sharing
-Share updates instantly. The new inline hyperlink layout allows copying formatted text directly to the clipboard.
-
----
-
-More updates coming soon!
+## **More updates coming soon!**
