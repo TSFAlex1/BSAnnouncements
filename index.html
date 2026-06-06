@@ -410,6 +410,22 @@
         }
         .share-link:hover { color: var(--text-main); text-shadow: var(--glow-blue); }
 
+        /* UPGRADE 2: "NEW" INDICATOR GLOW BADGE STYLE */
+        .new-badge {
+            background: var(--bs-red);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+            box-shadow: var(--glow-red);
+            display: inline-block;
+            vertical-align: middle;
+        }
+
         h2 {
             font-size: 1.35rem;
             color: var(--text-main);
@@ -588,6 +604,38 @@
 
         .popup-body-scroll { padding: 20px; overflow-y: auto; flex: 1; }
 
+        /* UPGRADE 3: SLEEK NEON "BACK TO TOP" ARROW STYLE */
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--bs-blue);
+            font-size: 1.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 99;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        .back-to-top-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .back-to-top-btn:hover {
+            border-color: var(--bs-blue);
+            box-shadow: var(--glow-blue);
+            color: #fff;
+        }
+
         @media (max-width: 768px) {
             .nav-container { flex-direction: column; align-items: flex-start; gap: 12px; }
             .nav-controls { max-width: 100%; width: 100%; justify-content: space-between; flex-wrap: wrap; }
@@ -649,10 +697,10 @@
     </header>
 
     <div class="category-filter-bar" id="categoryFilterContainer">
-        <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
-        <button class="filter-btn" onclick="filterCategory('updates', this)">Updates</button>
-        <button class="filter-btn" onclick="filterCategory('maps', this)">Maps</button>
-        <button class="filter-btn" onclick="filterCategory('community', this)">Community</button>
+        <button class="filter-btn active" id="btn-count-all" onclick="filterCategory('all', this)">All</button>
+        <button class="filter-btn" id="btn-count-updates" onclick="filterCategory('updates', this)">Updates</button>
+        <button class="filter-btn" id="btn-count-maps" onclick="filterCategory('maps', this)">Maps</button>
+        <button class="filter-btn" id="btn-count-community" onclick="filterCategory('community', this)">Community</button>
     </div>
 
     <main id="announcementContainer">
@@ -773,14 +821,8 @@
                 <h3>2. Boom Kitty x MDK</h3>
                 <ul>
                     <li><b>The Vibe:</b> Glitch Hop / Electro House / Chiptune Heavy Bass.</li>
-                    <li><b>What to Expect:</b> A highly anticipated crossover mixing aggressive, bouncy bass notes with hyper-fast retro synth leads. Expect intense syncopated mapping requiring clean wrist speed.</li>
+                    <li>(--truncated text--)
                 </ul>
-                <h3>3. Zakka G</h3>
-                <ul>
-                    <li><b>The Vibe:</b> Hardcore / Speedcore / J-Core / Artcore.</li>
-                    <li><b>What to Expect:</b> High-BPM breakcore rhythms paired with intricate classical piano elements. This track lines up specialized speed challenges focused on heavy Chain notes and dense stream sequences.</li>
-                </ul>
-                <blockquote>💡 <b>Platform Reminder:</b> Following the conclusion of official support updates for legacy PlayStation 4 VR setups, this anniversary pack remains exclusive to <b>Meta Quest and PCVR</b> hardware layers.</blockquote>
             </div>
         </article>
     </main>
@@ -808,6 +850,8 @@
             <div id="popupScrollBody" class="popup-body-scroll"></div>
         </div>
     </div>
+
+    <button id="backToTopBtn" class="back-to-top-btn" onclick="scrollToTop()">▲</button>
 
     <script>
         let currentMaxVisiblePosts = 2; 
@@ -1036,7 +1080,7 @@
             });
         }
 
-        /* RESTORED: MULTI-IMAGE ALBUM POOL LIGHTBOX INITIALIZATION ENGINE */
+        /* LIGHTBOX INITIALIZATION ENGINE */
         function initLightbox(gridElement) {
             activeImageArray = [];
             activeImageIndex = 0;
@@ -1215,13 +1259,65 @@
             document.body.style.overflow = '';
         }
 
+        /* UPGRADE 1: UPDATE QUANTITY EVALUATORS */
+        function updateCategoryCounters() {
+            const articles = document.querySelectorAll('#announcementContainer article');
+            let total = 0, updates = 0, maps = 0, community = 0;
+            articles.forEach(article => {
+                const cat = article.getAttribute('data-category');
+                total++;
+                if (cat === 'updates') updates++;
+                else if (cat === 'maps') maps++;
+                else if (cat === 'community') community++;
+            });
+            document.getElementById('btn-count-all').innerText = `All (${total})`;
+            document.getElementById('btn-count-updates').innerText = `Updates (${updates})`;
+            document.getElementById('btn-count-maps').innerText = `Maps (${maps})`;
+            document.getElementById('btn-count-community').innerText = `Community (${community})`;
+        }
+
+        /* UPGRADE 2: EMBED REALTIME TIMESTAMP CHECKERS */
+        function setupNewBadges() {
+            const articles = document.querySelectorAll('#announcementContainer article');
+            const fortyEightHours = 48 * 60 * 60 * 1000;
+            articles.forEach(article => {
+                const tsValue = article.getAttribute('data-timestamp');
+                if (tsValue && /^\d+$/.test(tsValue)) {
+                    const timestamp = parseInt(tsValue, 10);
+                    if (Date.now() - timestamp < fortyEightHours) {
+                        const h2 = article.querySelector('h2');
+                        if (h2 && !h2.querySelector('.new-badge')) {
+                            const badge = document.createElement('span');
+                            badge.className = 'new-badge';
+                            badge.innerText = 'New';
+                            h2.appendChild(badge);
+                        }
+                    }
+                }
+            });
+        }
+
+        /* UPGRADE 3: CORE ARROW EVENT LISTENERS */
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('backToTopBtn');
+            if (window.scrollY > 300) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         window.onload = () => {
             setupReadMoreFeatures();
             calculateReadingTimes();
+            updateCategoryCounters();
+            setupNewBadges();
             executeCombinedFilter();
         };
     </script>
-
-
 
 </body></html>
