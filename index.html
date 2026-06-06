@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BS Announcements</title>
@@ -32,6 +33,28 @@
             line-height: 1.6;
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+        }
+
+        /* NEON GRID BACKGROUND EFFECT */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 212, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+            animation: gridScroll 24s linear infinite;
+            transition: background-image 0.3s ease;
+        }
+
+        @keyframes gridScroll {
+            from { background-position: 0 0; }
+            to { background-position: 0 40px; }
         }
 
         /* THEME-INTEGRATED CUSTOM SCROLLBARS */
@@ -99,7 +122,6 @@
             transition: text-shadow 0.3s;
         }
 
-        /* ADDED: TOP LEFT INFO BUTTON STYLE */
         .btn-info-directory {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
@@ -300,6 +322,7 @@
             max-width: 800px;
             margin: 12px auto 24px auto;
             padding: 0 16px;
+            position: relative;
         }
 
         article {
@@ -310,8 +333,36 @@
             margin-bottom: 24px;
             box-shadow: 0 10px 30px var(--shadow-color);
             transition: border-color 0.2s, background-color 0.3s;
+            position: relative;
+            overflow: hidden;
         }
         article:hover { border-color: var(--bs-blue); }
+
+        /* ANIMATED PULSE FOR PINNED/MAINTENANCE POSTS */
+        article[data-maintenance-post="true"] {
+            animation: warningPulse 2s infinite alternate ease-in-out;
+        }
+        @keyframes warningPulse {
+            from { border-color: var(--bs-red); box-shadow: 0 0 8px rgba(255, 0, 60, 0.25); }
+            to { border-color: #ff5588; box-shadow: 0 0 20px rgba(255, 0, 60, 0.55); }
+        }
+
+        /* FIXED HARDWARE ACCELERATION SWIPE SCANNER - REMOVES TEARING & CLIP CUTOFF */
+        article.scanned-anim::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 200%; height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(0, 212, 255, 0.12) 25%, transparent 50%, transparent 100%);
+            pointer-events: none;
+            will-change: transform;
+            transform: translate3d(-100%, 0, 0) skewX(-25deg);
+            animation: scanSwipe3D 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes scanSwipe3D {
+            0% { transform: translate3d(-100%, 0, 0) skewX(-25deg); }
+            100% { transform: translate3d(50%, 0, 0) skewX(-25deg); }
+        }
 
         .byline {
             display: flex;
@@ -368,6 +419,7 @@
             letter-spacing: -0.3px;
         }
 
+        /* IMAGE CORNER NEON ACCENTS */
         .album-grid {
             position: relative;
             width: 100%;
@@ -381,6 +433,20 @@
             align-items: center;
             cursor: pointer;
         }
+        .album-grid::before, .album-grid::after {
+            content: '';
+            position: absolute;
+            width: 8px; height: 8px;
+            border: 2px solid var(--bs-blue);
+            pointer-events: none;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        .album-grid::before { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
+        .album-grid::after { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
+        .album-grid:hover::before { top: 4px; left: 4px; border-color: #fff; filter: drop-shadow(var(--glow-blue)); }
+        .album-grid:hover::after { bottom: 4px; right: 4px; border-color: #fff; filter: drop-shadow(var(--glow-blue)); }
 
         .announcement-img {
             max-width: 100%;
@@ -443,7 +509,7 @@
         }
         .load-more-btn:hover { border-color: var(--bs-blue); box-shadow: var(--glow-blue); }
 
-        /* LIGHTBOX MODAL SYSTEMS */
+        /* RESTORED FULL LIGHTBOX MODAL STRUCTURAL RULES */
         .lightbox-modal {
             display: none;
             position: fixed;
@@ -473,6 +539,9 @@
             width: 44px; height: 44px; border-radius: 50%; font-size: 1.25rem; cursor: pointer;
             display: flex; justify-content: center; align-items: center; transition: all 0.2s; user-select: none; z-index: 1010;
         }
+        .lightbox-btn:hover { border-color: var(--bs-blue); color: var(--bs-blue); box-shadow: var(--glow-blue); }
+        .lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+        .lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
         .lightbox-close { top: 16px; right: 16px; border-color: var(--bs-red); color: var(--bs-red); font-size: 1.5rem; }
         .lightbox-close:hover { background: var(--bs-red); color: #fff; box-shadow: var(--glow-red); }
 
@@ -533,6 +602,8 @@
             .announcement-img { max-height: 300px; }
             .category-filter-bar { margin-top: 12px; padding: 0 16px; }
             .popup-window { max-height: 92vh; }
+            .lightbox-prev { left: 25%; top: auto; bottom: 60px; transform: none; }
+            .lightbox-next { right: 25%; top: auto; bottom: 60px; transform: none; }
         }
     </style>
 </head>
@@ -587,16 +658,26 @@
 
     <main id="announcementContainer">
         
-        <article data-category="community" data-status="published"><header class="byline"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/CATTAlex pic.jpg" class="pfp"><span>By <span class="author">TSFAlex</span> • May 28, 2026 <span class="reading-time-container"></span></span><span class="post-tag">community</span></header><h2>TSFAlex new video of his new OST 9!</h2><div class="album-grid" onclick="initLightbox(this)"><img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/Gemini_Generated_Image_u93alxu93alxu93a-clean.png" class="announcement-img"><div class="hidden-album-pool"></div></div><div class="article-body-content">
+        <article data-category="community" data-status="published" data-timestamp="1780012800000" data-views="12500">
+            <header class="byline">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/CATTAlex pic.jpg" class="pfp">
+                <span>By <span class="author">TSFAlex</span> • May 28, 2026 <span class="reading-time-container"></span></span>
+                <span class="post-tag">community</span>
+            </header>
+            <h2>TSFAlex new video of his new OST 9 !</h2>
+            <div class="album-grid" onclick="initLightbox(this)">
+                <img src="https://raw.githubusercontent.com/TSFAlex1/BSAnnouncements-Images/main/Gemini_Generated_Image_u93alxu93alxu93a-clean.png" class="announcement-img">
+                <div class="hidden-album-pool"></div>
+            </div>
+            <div class="article-body-content">
                 <p>TSFAlex has officially dropped the highly anticipated showcase video highlighting a fully customized, community-driven OST 9 concept, and it delivers intense energy on every front!</p>
                 <p>This curation layout packs custom-engineered environmental mapping parameters alongside precision high-density stream configurations. Accompanying the video rollout, premium 4K playlist layouts have been conceptualized to align cleanly with official asset styling metrics.</p>
                 <p>Watch the full reveal directly below to experience the synchronized lighting blocks, custom visual sabers, and performance metrics. Be sure to check the map paths and leave feedback on the pacing arrays!</p>
                 <div class="external-embed-frame">
                     <iframe src="https://www.youtube.com/embed/YNbVSSXelj4" title="I made my OWN OST 9 and it goes CRAZY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
                 </div>
-            </div><div class="external-embed-frame">
-                    <iframe src="https://www.youtube.com/embed/YNbVSSXelj4" title="I made my OWN OST 9 and it goes CRAZY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
-                </div></article>
+            </div>
+        </article>
 
         <article data-category="updates" data-status="published" data-timestamp="1778889600000" data-views="9200">
             <header class="byline">
@@ -711,10 +792,12 @@
 
     <div id="globalLightbox" class="lightbox-modal" onclick="closeLightbox()">
         <button class="lightbox-btn lightbox-close" onclick="closeLightbox(); event.stopPropagation();">×</button>
+        <button id="lightboxPrev" class="lightbox-btn lightbox-prev" onclick="navigateLightbox(-1); event.stopPropagation();">❮</button>
         <div class="lightbox-content-wrapper" onclick="event.stopPropagation();">
             <img id="lightboxTargetImg" class="lightbox-viewer-img" src="" alt="Active View">
             <div id="lightboxCounter" class="lightbox-counter">1 / 1</div>
         </div>
+        <button id="lightboxNext" class="lightbox-btn lightbox-next" onclick="navigateLightbox(1); event.stopPropagation();">❯</button>
     </div>
 
     <div id="readMorePopup" class="article-popup-modal" onclick="closePopup()">
@@ -730,6 +813,7 @@
     <script>
         let currentMaxVisiblePosts = 2; 
         let activeImageArray = [];
+        let activeImageIndex = 0;
         let currentSelectedCategory = 'all';
         let currentSortValue = 'newest';
 
@@ -764,7 +848,6 @@
             }, 200);
         }
 
-        // Expanded system dynamically updates iframe themes across window sessions as well
         function selectDropdownOption(containerId, value, labelText) {
             const container = document.getElementById(containerId);
             const trigger = container.querySelector('.dropdown-trigger');
@@ -937,7 +1020,6 @@
                 root.style.setProperty('--invert-brightness', '0.12');
             }
 
-            // Sync structural changes with any embedded child windows
             const iframe = document.querySelector('iframe');
             if (iframe && iframe.contentWindow) {
                 iframe.contentWindow.postMessage({ type: 'themeChange', theme: theme }, '*');
@@ -955,15 +1037,50 @@
             });
         }
 
+        /* RESTORED: MULTI-IMAGE ALBUM POOL LIGHTBOX INITIALIZATION ENGINE */
         function initLightbox(gridElement) {
             activeImageArray = [];
+            activeImageIndex = 0;
+
             const primaryImg = gridElement.querySelector('.announcement-img');
             if (primaryImg) activeImageArray.push(primaryImg.src);
-            document.getElementById('lightboxTargetImg').src = activeImageArray[0];
+
+            const structuralPool = gridElement.querySelectorAll('.hidden-album-pool .announcement-img');
+            structuralPool.forEach(img => activeImageArray.push(img.src));
+
+            if (activeImageArray.length === 0) return;
+
+            const prevBtn = document.getElementById('lightboxPrev');
+            const nextBtn = document.getElementById('lightboxNext');
+
+            if (prevBtn && nextBtn) {
+                if (activeImageArray.length <= 1) {
+                    prevBtn.style.display = 'none';
+                    nextBtn.style.display = 'none';
+                } else {
+                    prevBtn.style.display = 'flex';
+                    nextBtn.style.display = 'flex';
+                }
+            }
+
+            renderLightboxFrame();
+            
             const modal = document.getElementById('globalLightbox');
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('show'), 10);
             document.body.style.overflow = 'hidden';
+        }
+
+        function renderLightboxFrame() {
+            document.getElementById('lightboxTargetImg').src = activeImageArray[activeImageIndex];
+            document.getElementById('lightboxCounter').innerText = `${activeImageIndex + 1} / ${activeImageArray.length}`;
+        }
+
+        function navigateLightbox(direction) {
+            activeImageIndex += direction;
+            if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;
+            if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;
+            renderLightboxFrame();
         }
 
         function closeLightbox() {
@@ -972,6 +1089,22 @@
             setTimeout(() => modal.style.display = 'none', 200);
             document.body.style.overflow = '';
         }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('globalLightbox');
+            const popup = document.getElementById('readMorePopup');
+            
+            if (modal.classList.contains('show')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (activeImageArray.length > 1) {
+                    if (e.key === 'ArrowRight') navigateLightbox(1);
+                    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                }
+            }
+            if (popup.classList.contains('show')) {
+                if (e.key === 'Escape') closePopup();
+            }
+        });
 
         function filterCategory(categoryValue, element) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -1016,7 +1149,15 @@
 
                 if (matchesSearch && matchesCategory) {
                     viewableMatches++;
-                    article.style.display = (viewableMatches <= currentMaxVisiblePosts) ? 'block' : 'none';
+                    const shouldDisplay = viewableMatches <= currentMaxVisiblePosts;
+                    
+                    if (shouldDisplay && article.style.display === 'none') {
+                        article.classList.remove('scanned-anim');
+                        void article.offsetWidth; 
+                        article.classList.add('scanned-anim');
+                    }
+                    
+                    article.style.display = shouldDisplay ? 'block' : 'none';
                 } else {
                     article.style.display = 'none';
                 }
@@ -1082,5 +1223,5 @@
         };
     </script>
 
-
-</body></html>
+</body>
+</html>
