@@ -99,6 +99,28 @@
             transition: text-shadow 0.3s;
         }
 
+        /* ADDED: TOP LEFT INFO BUTTON STYLE */
+        .btn-info-directory {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--bs-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-info-directory:hover {
+            border-color: var(--bs-blue);
+            box-shadow: var(--glow-blue);
+            color: #fff;
+        }
+
         .nav-controls {
             display: flex;
             align-items: center;
@@ -521,6 +543,7 @@
             <div class="nav-branding">
                 <img src="BS-Announcements-Icon.png" class="nav-logo" alt="Logo">
                 <h1 class="nav-title">BS Announcements</h1>
+                <a href="https://bs-announcements.vercel.app/info/" class="btn-info-directory">Info &amp; Links</a>
             </div>
             <div class="nav-controls">
                 <div class="search-wrapper">
@@ -751,6 +774,7 @@
             }, 200);
         }
 
+        // Expanded system dynamically updates iframe themes across window sessions as well
         function selectDropdownOption(containerId, value, labelText) {
             const container = document.getElementById(containerId);
             const trigger = container.querySelector('.dropdown-trigger');
@@ -922,6 +946,12 @@
                 root.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.03)');
                 root.style.setProperty('--invert-brightness', '0.12');
             }
+
+            // Sync structural changes with any embedded child windows
+            const iframe = document.querySelector('iframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({ type: 'themeChange', theme: theme }, '*');
+            }
         }
 
         function shareArticle(event, anchor, title) {
@@ -960,14 +990,12 @@
             executeCombinedFilter();
         }
 
-        /* FIXED UNIFIED DATE ENGINE FOR FILTERING AND SORTING */
         function executeCombinedFilter() {
             const searchQuery = document.getElementById('announcementSearch').value.toLowerCase();
             const container = document.getElementById('announcementContainer');
             const articles = Array.from(container.querySelectorAll('article'));
 
             articles.sort((a, b) => {
-                // Robustly handles both pure millisecond integers and readable date strings
                 const parseDateToUnix = (el) => {
                     const value = el.getAttribute('data-timestamp');
                     if (!value) return 0;
