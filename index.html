@@ -134,6 +134,8 @@
             letter-spacing: 0.5px;
             transition: all 0.2s ease;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-info-directory:hover {
@@ -154,7 +156,7 @@
         .search-wrapper {
             position: relative;
             flex: 1;
-            max-width: 200px;
+            max-width: 160px;
         }
 
         #announcementSearch {
@@ -172,6 +174,51 @@
         #announcementSearch:focus {
             border-color: var(--bs-blue);
             box-shadow: var(--glow-blue);
+        }
+
+        /* SOUND EFFECTS OPT-IN TOGGLE CONTROL */
+        .btn-sfx-toggle {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .btn-sfx-toggle.sfx-enabled {
+            border-color: var(--bs-blue);
+            color: var(--bs-blue);
+            box-shadow: var(--glow-blue);
+        }
+
+        /* SABER-CUT ANIMATED INTERFACE MODULES */
+        .filter-btn, .load-more-btn, .read-more-trigger, .btn-info-directory {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::after, .load-more-btn::after, .read-more-trigger::after, .btn-info-directory::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-30deg) translate3d(-150%, 0, 0);
+            transition: none;
+            pointer-events: none;
+        }
+
+        .filter-btn:hover::after, .load-more-btn:hover::after, .read-more-trigger:hover::after, .btn-info-directory:hover::after {
+            transform: skewX(-30deg) translate3d(150%, 0, 0);
+            transition: transform 0.45s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
         /* CUSTOM ANIMATED DROPDOWNS */
@@ -674,9 +721,33 @@
             letter-spacing: 0.5px;
             transition: color 0.3s;
         }
+
+        /* HARDWARE ACCELERATED NEON TOUCH GESTURE CANVAS LAYER */
+        #gestureTrailCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1200;
+            pointer-events: none;
+        }
+
+        /* MOBILE MEDIA QUERIES ADJUSTMENTS */
+        @media (max-width: 680px) {
+            header.global-nav { padding: 10px 12px; }
+            .nav-container { flex-direction: column; align-items: stretch; gap: 10px; }
+            .nav-branding { justify-content: space-between; }
+            .nav-controls { width: 100%; max-width: 100%; justify-content: space-between; gap: 6px; }
+            .search-wrapper { max-width: none; flex: 1; }
+            .custom-dropdown .dropdown-trigger { padding: 8px 24px 8px 10px; font-size: 0.75rem; }
+            .category-filter-bar { gap: 6px; padding: 0 12px; }
+            .filter-btn { padding: 6px 10px; font-size: 0.75rem; }
+            .back-to-top-btn { bottom: 16px; right: 16px; width: 38px; height: 38px; font-size: 1rem; }
+        }
     </style>
 </head>
-<body>
+<body onmouseover="appendHoverSoundNodeListeners()">
+
+    <canvas id="gestureTrailCanvas"></canvas>
 
     <header class="global-nav">
         <div class="nav-container">
@@ -714,6 +785,8 @@
                         <div class="dropdown-item" data-value="light-mint" onclick="selectDropdownOption('themeDropdownContainer', 'light-mint', 'Theme: Mint')">Fresh Mint (White)</div>
                     </div>
                 </div>
+
+                <button class="btn-sfx-toggle" id="sfxToggleNode" onclick="toggleSfxSystemPref()" title="Toggle UI Sound Effects">🔇</button>
             </div>
         </div>
         <div id="scrollProgressTracker" style="position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; background: var(--bs-blue); box-shadow: var(--glow-blue); transition: width 0.1s ease; z-index: 101;"></div>
@@ -889,7 +962,117 @@
         let currentSelectedCategory = 'all';
         let currentSortValue = 'newest';
 
+        // EXPANDED NATIVE WEB AUDIO API SYNTHESIS MATRIX
+        let sfxSystemActive = false;
+        let nativeAudioContext = null;
+
+        function initNativeAudioContext() {
+            if (!nativeAudioContext) {
+                nativeAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function triggerUiSfx(soundType) {
+            if (!sfxSystemActive) return;
+            try {
+                initNativeAudioContext();
+                if (nativeAudioContext.state === 'suspended') {
+                    nativeAudioContext.resume();
+                }
+                
+                const time = nativeAudioContext.currentTime;
+                const gain = nativeAudioContext.createGain();
+                gain.connect(nativeAudioContext.destination);
+
+                if (soundType === 'click') {
+                    // Crisp UI mechanical click sweep
+                    const osc = nativeAudioContext.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1200, time);
+                    osc.frequency.exponentialRampToValueAtTime(300, time + 0.04);
+                    gain.gain.setValueAtTime(0.08, time);
+                    gain.gain.linearRampToValueAtTime(0, time + 0.04);
+                    osc.connect(gain);
+                    osc.start(time);
+                    osc.stop(time + 0.04);
+                } else if (soundType === 'slice') {
+                    // Lightning-fast high frequency saber slice sweep
+                    const osc = nativeAudioContext.createOscillator();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(150, time);
+                    osc.frequency.exponentialRampToValueAtTime(1800, time + 0.08);
+                    gain.gain.setValueAtTime(0.12, time);
+                    gain.gain.linearRampToValueAtTime(0, time + 0.08);
+                    osc.connect(gain);
+                    osc.start(time);
+                    osc.stop(time + 0.08);
+                } else if (soundType === 'dropdown') {
+                    // Dual oscillator synthetic menu dropdown alignment pulse
+                    const osc1 = nativeAudioContext.createOscillator();
+                    const osc2 = nativeAudioContext.createOscillator();
+                    osc1.type = 'sine'; osc2.type = 'triangle';
+                    osc1.frequency.setValueAtTime(440, time);
+                    osc2.frequency.setValueAtTime(220, time);
+                    gain.gain.setValueAtTime(0.05, time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.12);
+                    osc1.connect(gain); osc2.connect(gain);
+                    osc1.start(time); osc2.start(time);
+                    osc1.stop(time + 0.12); osc2.stop(time + 0.12);
+                } else if (soundType === 'hover') {
+                    // Microscopic high frequency click element for button hovers
+                    const osc = nativeAudioContext.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(3000, time);
+                    gain.gain.setValueAtTime(0.015, time);
+                    gain.gain.linearRampToValueAtTime(0, time + 0.01);
+                    osc.connect(gain);
+                    osc.start(time);
+                    osc.stop(time + 0.01);
+                } else if (soundType === 'modal') {
+                    // Smooth frequency glide swell overlay for popup portals
+                    const osc = nativeAudioContext.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(250, time);
+                    osc.frequency.exponentialRampToValueAtTime(650, time + 0.2);
+                    gain.gain.setValueAtTime(0.001, time);
+                    gain.gain.linearRampToValueAtTime(0.06, time + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.2);
+                    osc.connect(gain);
+                    osc.start(time);
+                    osc.stop(time + 0.2);
+                }
+            } catch(e) {
+                console.warn("Audio Context blocked or uninitialized", e);
+            }
+        }
+
+        function toggleSfxSystemPref() {
+            sfxSystemActive = !sfxSystemActive;
+            const toggleBtn = document.getElementById('sfxToggleNode');
+            if (sfxSystemActive) {
+                initNativeAudioContext();
+                toggleBtn.classList.add('sfx-enabled');
+                toggleBtn.innerText = '🔊';
+                triggerUiSfx('slice');
+            } else {
+                toggleBtn.classList.remove('sfx-enabled');
+                toggleBtn.innerText = '🔇';
+            }
+            localStorage.setItem('sfxSystemActive', sfxSystemActive ? 'true' : 'false');
+        }
+
+        function appendHoverSoundNodeListeners() {
+            const targets = document.querySelectorAll('.filter-btn, .load-more-btn, .read-more-trigger, .btn-info-directory, .dropdown-trigger, .dropdown-item, .album-grid, .share-link');
+            targets.forEach(el => {
+                if (!el.hasAttribute('data-sfx-hover-bound')) {
+                    el.setAttribute('data-sfx-hover-bound', 'true');
+                    el.addEventListener('mouseenter', () => triggerUiSfx('hover'));
+                }
+            });
+        }
+
         function toggleDropdown(containerId) {
+            triggerUiSfx('dropdown');
             const container = document.getElementById(containerId);
             const menu = container.querySelector('.dropdown-menu');
             const isActive = container.classList.contains('active');
@@ -921,6 +1104,7 @@
         }
 
         function selectDropdownOption(containerId, value, labelText) {
+            triggerUiSfx('slice');
             const container = document.getElementById(containerId);
             const trigger = container.querySelector('.dropdown-trigger');
             
@@ -1095,6 +1279,7 @@
 
         function shareArticle(event, anchor, title) {
             event.preventDefault();
+            triggerUiSfx('click');
             const cleanUrl = window.location.href.split('#')[0];
             const textToCopy = `**[Announcement] ${title}**\nRead here: ${cleanUrl}`;
             navigator.clipboard.writeText(textToCopy).then(() => {
@@ -1106,6 +1291,7 @@
 
         /* LIGHTBOX INITIALIZATION ENGINE */
         function initLightbox(gridElement) {
+            triggerUiSfx('modal');
             activeImageArray = [];
             activeImageIndex = 0;
 
@@ -1144,6 +1330,7 @@
         }
 
         function navigateLightbox(direction) {
+            triggerUiSfx('click');
             activeImageIndex += direction;
             if (activeImageIndex >= activeImageArray.length) activeImageIndex = 0;
             if (activeImageIndex < 0) activeImageIndex = activeImageArray.length - 1;
@@ -1151,6 +1338,7 @@
         }
 
         function closeLightbox() {
+            triggerUiSfx('click');
             const modal = document.getElementById('globalLightbox');
             modal.classList.remove('show');
             setTimeout(() => modal.style.display = 'none', 200);
@@ -1174,6 +1362,7 @@
         });
 
         function filterCategory(categoryValue, element) {
+            triggerUiSfx('slice');
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
             currentSelectedCategory = categoryValue;
@@ -1234,7 +1423,7 @@
                 }
             });
 
-            // UPGRADE 1: DYNAMIC PROGRESS DIVIDER CONDITIONAL TOGGLER
+            // PROGRESS DIVIDER RE-POPULATION CONDITIONAL TOGGLER
             const dividers = Array.from(container.querySelectorAll('.timeline-divider'));
             dividers.forEach(div => div.remove());
 
@@ -1247,7 +1436,6 @@
                 }
             });
 
-            // UPGRADE 3: DYNAMIC FILTER LOG LABEL STRING SYNTAX GENERATOR
             const label = document.getElementById('filterStatusLabel');
             if (label) {
                 if (searchQuery === '' && currentSelectedCategory === 'all') {
@@ -1263,6 +1451,7 @@
         }
 
         function increasePostsLimit() {
+            triggerUiSfx('click');
             currentMaxVisiblePosts += 2;
             executeCombinedFilter();
         }
@@ -1276,10 +1465,10 @@
                     triggerBtn.className = 'read-more-trigger';
                     triggerBtn.innerText = 'Read Full Announcement';
                     triggerBtn.onclick = () => {
+                        triggerUiSfx('modal');
                         const articleTitle = body.parentElement.querySelector('h2').innerText;
                         const isNew = !!body.parentElement.querySelector('.new-badge');
                         
-                        // Calculate reading time purely dynamically inside the read more section context
                         const words = body.innerText.trim().split(/\s+/).filter(w => w.length > 0).length;
                         const readingTime = `${Math.ceil(words / 225)} min read`;
 
@@ -1294,7 +1483,6 @@
             const titleHeader = document.getElementById('popupArticleTitle');
             titleHeader.innerText = title;
             
-            // Clear any previously existing upgrade tracking elements inside the popup window wrapper
             const staleBadges = titleHeader.parentElement.querySelectorAll('.new-badge, .popup-reading-time');
             staleBadges.forEach(b => b.remove());
 
@@ -1318,13 +1506,13 @@
         }
 
         function closePopup() {
+            triggerUiSfx('click');
             const popup = document.getElementById('readMorePopup');
             popup.classList.remove('show');
             setTimeout(() => popup.style.display = 'none', 200);
             document.body.style.overflow = '';
         }
 
-        /* UPGRADE 1: UPDATE QUANTITY EVALUATORS */
         function updateCategoryCounters() {
             const articles = document.querySelectorAll('#announcementContainer article');
             let total = 0, updates = 0, maps = 0, community = 0;
@@ -1341,7 +1529,6 @@
             document.getElementById('btn-count-community').innerText = `Community (${community})`;
         }
 
-        /* UPGRADE 2: SEPARATE NEW INDICATOR BADGE POPULATION ROUTINE */
         function setupNewBadges() {
             const articles = document.querySelectorAll('#announcementContainer article');
             const fortyEightHours = 48 * 60 * 60 * 1000;
@@ -1362,7 +1549,6 @@
             });
         }
 
-        /* UPGRADE 2: AUTO-UPDATING READING PROGRESS INDICATOR LISTENER */
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1381,14 +1567,133 @@
         });
 
         function scrollToTop() {
+            triggerUiSfx('slice');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // SABER SLASH HARDWARE ACCELERATED INTERACTIVE CANVAS SWIPE GESTURE ENGINE
+        const canvasNode = document.getElementById('gestureTrailCanvas');
+        const canvasCtx = canvasNode.getContext('2d');
+        let touchPointsPool = [];
+
+        function adjustGestureCanvasViewport() {
+            canvasNode.width = window.innerWidth;
+            canvasNode.height = window.innerHeight;
+        }
+        window.addEventListener('resize', adjustGestureCanvasViewport);
+        adjustGestureCanvasViewport();
+
+        function appendTrailTouchPoint(x, y) {
+            touchPointsPool.push({ x: x, y: y, timestamp: performance.now(), lifespan: 200 });
+        }
+
+        function drawSaberSlashTrailFrame() {
+            canvasCtx.clearRect(0, 0, canvasNode.width, canvasNode.height);
+            const now = performance.now();
+            touchPointsPool = touchPointsPool.filter(p => now - p.timestamp < p.lifespan);
+
+            if (touchPointsPool.length > 1) {
+                const activeSaberColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-blue').trim() || '#00d4ff';
+                
+                canvasCtx.beginPath();
+                canvasCtx.moveTo(touchPointsPool[0].x, touchPointsPool[0].y);
+                
+                for (let i = 1; i < touchPointsPool.length; i++) {
+                    canvasCtx.lineTo(touchPointsPool[i].x, touchPointsPool[i].y);
+                }
+                
+                canvasCtx.strokeStyle = activeSaberColor;
+                canvasCtx.lineWidth = 5;
+                canvasCtx.lineCap = 'round';
+                canvasCtx.lineJoin = 'round';
+                canvasCtx.shadowBlur = 15;
+                canvasCtx.shadowColor = activeSaberColor;
+                canvasCtx.stroke();
+                
+                canvasCtx.shadowBlur = 0;
+                canvasCtx.strokeStyle = '#ffffff';
+                canvasCtx.lineWidth = 2;
+                canvasCtx.stroke();
+            }
+            requestAnimationFrame(drawSaberSlashTrailFrame);
+        }
+        requestAnimationFrame(drawSaberSlashTrailFrame);
+
+        // SWIPE METRIC GESTURE INTERCEPTORS
+        let initialTouchX = 0;
+        let initialTouchY = 0;
+        const availableCategoriesList = ['all', 'updates', 'maps', 'community'];
+
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                initialTouchX = e.touches[0].clientX;
+                initialTouchY = e.touches[0].clientY;
+                appendTrailTouchPoint(initialTouchX, initialTouchY);
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1) {
+                const currentMoveX = e.touches[0].clientX;
+                const currentMoveY = e.touches[0].clientY;
+                appendTrailTouchPoint(currentMoveX, currentMoveY);
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            if (!initialTouchX || !initialTouchY) return;
+
+            const finalTouchX = e.changedTouches[0].clientX;
+            const finalTouchY = e.changedTouches[0].clientY;
+
+            const varianceDeltaX = finalTouchX - initialTouchX;
+            const varianceDeltaY = finalTouchY - initialTouchY;
+
+            if (Math.abs(varianceDeltaX) > 75 || Math.abs(varianceDeltaY) > 75) {
+                const modalLightbox = document.getElementById('globalLightbox');
+                const modalReadMore = document.getElementById('readMorePopup');
+
+                if (modalLightbox.classList.contains('show') || modalReadMore.classList.contains('show')) {
+                    if (varianceDeltaY > 75) { // Downward Swipe
+                        if (modalLightbox.classList.contains('show')) closeLightbox();
+                        if (modalReadMore.classList.contains('show')) closePopup();
+                    }
+                    initialTouchX = 0; initialTouchY = 0;
+                    return;
+                }
+
+                if (Math.abs(varianceDeltaX) > Math.abs(varianceDeltaY)) {
+                    let activeIndex = availableCategoriesList.indexOf(currentSelectedCategory);
+                    
+                    if (varianceDeltaX > 75) { // Right Swipe
+                        activeIndex = (activeIndex - 1 + availableCategoriesList.length) % availableCategoriesList.length;
+                    } else if (varianceDeltaX < -75) { // Left Swipe
+                        activeIndex = (activeIndex + 1) % availableCategoriesList.length;
+                    }
+                    
+                    const targetedCategory = availableCategoriesList[activeIndex];
+                    const targetButtonElement = document.getElementById(`btn-count-${targetedCategory}`);
+                    if (targetButtonElement) {
+                        filterCategory(targetedCategory, targetButtonElement);
+                    }
+                }
+            }
+
+            initialTouchX = 0;
+            initialTouchY = 0;
+        }, { passive: true });
+
         window.onload = () => {
+            if (localStorage.getItem('sfxSystemActive') === 'true') {
+                sfxSystemActive = true;
+                document.getElementById('sfxToggleNode').classList.add('sfx-enabled');
+                document.getElementById('sfxToggleNode').innerText = '🔊';
+            }
             setupReadMoreFeatures();
             updateCategoryCounters();
             setupNewBadges();
             executeCombinedFilter();
+            appendHoverSoundNodeListeners();
         };
     </script>
 
